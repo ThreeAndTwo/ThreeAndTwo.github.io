@@ -1,0 +1,1615 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>消息队列 on K&#39;s blog</title>
+    <link>https://threeandtwo.github.io/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
+    <description>Recent content in 消息队列 on K&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 13 Jan 2020 23:47:05 +0000</lastBuildDate>
+    
+        <atom:link href="https://threeandtwo.github.io/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>outline to desktop app</title>
+      <link>https://threeandtwo.github.io/posts/outline2app/</link>
+      <pubDate>Tue, 19 Jan 2021 08:30:42 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/outline2app/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;不务正业系列，但是很好玩的一个东西！&lt;/p&gt;
+&lt;p&gt;教你把一个网站打包成一个可安装的桌面软件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;环境准备&#34;&gt;环境准备&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;nodejs&lt;/li&gt;
+&lt;li&gt;Mac / Wins / Linux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;工具安装&#34;&gt;工具安装&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ npm i -g nativefier
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;开始制作&#34;&gt;开始制作&lt;/h3&gt;
+&lt;p&gt;选定好要制作的网页。例如：https://github.com&lt;/p&gt;
+&lt;h4 id=&#34;最简单的命令&#34;&gt;最简单的命令&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ nativefier &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://github.com&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;指定软件名称以及图标&#34;&gt;指定软件名称以及图标&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ nativefier --name &lt;span class=&#34;s2&#34;&gt;&amp;#34;github&amp;#34;&lt;/span&gt; --icon &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/kai/Downloads/linux_icon.png&amp;#34;&lt;/span&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://github.com&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;ps: 关于 icon  的要求，在Linx 和 Mac 上可以是 png 的图片。但是在 Wins 上则必须是 .ico 文件！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;打包其他平台的安装包&#34;&gt;打包其他平台的安装包&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 个人的是 Mac，所以用上面命令打包出来的默认是 Mac 上的。&lt;/span&gt;
+$ nativefier --name &lt;span class=&#34;s2&#34;&gt;&amp;#34;github&amp;#34;&lt;/span&gt; -p &lt;span class=&#34;s2&#34;&gt;&amp;#34;windows&amp;#34;&lt;/span&gt;  --icon &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/kai/Downloads/win_icon.ico&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://github.com&amp;#34;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 此为 wins 上的&lt;/span&gt;
+$ nativefier --name &lt;span class=&#34;s2&#34;&gt;&amp;#34;github&amp;#34;&lt;/span&gt; --icon &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/kai/Downloads/linux_icon.png&amp;#34;&lt;/span&gt; -p &lt;span class=&#34;s2&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://github.com&amp;#34;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 此为 Linux 平台的&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;ps: 具体还有很多可供选择的选项，比如宽高，伸缩性，授权等等，具体可参考官方文档！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/jiahaog/nativefier/blob/HEAD/docs/api.md&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;官方文档&lt;/a&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>getoutline.com installation guide</title>
+      <link>https://threeandtwo.github.io/posts/installforoutline/</link>
+      <pubDate>Tue, 19 Jan 2021 08:23:50 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/installforoutline/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;只测试了 Mac，Linux For Centos 平台的，其余的组合不在本文的范围内，但其实都大同小异。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;起因&#34;&gt;起因&lt;/h3&gt;
+&lt;p&gt;公司要换一个 wiki 工具，需要良好的支持 markdown，以便积累知识。对比后选定了和 Notion 很接近的  outline。&lt;/p&gt;
+&lt;h3 id=&#34;依赖环境&#34;&gt;依赖环境&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://nodejs.org/en/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;nodejs&lt;/a&gt;
+ &amp;gt;= 12&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://yarnpkg.com/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Yarn&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.postgresql.org/download/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Postgrest&lt;/a&gt;
+ &amp;gt;= 9.5&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://redis.io/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Redis&lt;/a&gt;
+ &amp;gt;= 4&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://s3.console.aws.amazon.com/s3/home?region=us-east-2#&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;AWS S3&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://slack.com/signin#/signin&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Slack&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;配置文件中的要素&#34;&gt;配置文件中的要素&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;slack 的信息&lt;/li&gt;
+&lt;li&gt;slack 的回调地址&lt;/li&gt;
+&lt;li&gt;数据库的地址&lt;/li&gt;
+&lt;li&gt;redis 的信息&lt;/li&gt;
+&lt;li&gt;aws 的配置信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置文件的参数修改&#34;&gt;配置文件的参数修改&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;复制配置文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;cp .env.example .env
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;生成 SECRET_KEY&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ openssl rand -hex &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 postgres 信息&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;分为正式库和测试库&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;DATABASE_URL=postgres://user:pass@localhost:5532/outline
+DATABASE_URL_TEST=postgres://user:pass@localhost:5532/outline-test
+&lt;/code&gt;&lt;/pre&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;配置参数&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;参数含义&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;参数示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;postgres&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;选定的存储的 DB 的类型（也可以为 mysql,sqlite等等）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;postgres&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;user&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;postgres 的登陆用户&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;psql_acount&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;pass&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;postgres 的登陆密码&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;psql_password&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5532&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;postgres 的端口号&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5432&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;outline&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;数据库名称&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;outline&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 redis&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;REDIS_URL=redis://localhost:6479
+&lt;/code&gt;&lt;/pre&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;配置参数&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;参数含义&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;参数示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;redis&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;缓存介质为 redis&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;redis&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;localhost&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;redis 连接信息&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;localhost&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6479&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;redis 端口号&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6479&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其余配置项&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 此处的 url 为 slack 回调的 url，
+URL=http://localhost:3000
+PORT=3000
+   
+# 测试修改为 false
+FORCE_HTTPS=false
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;slack&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注册 slack 账号。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://api.slack.com/&#34;&gt;https://api.slack.com/&lt;/a&gt;  申请 app，即可获取到对应的信息。需要注意的是回调地址需要配置好，slack 支持多个回调地址，因此测试和生产可互不影响，具体的步骤可自行按照官方文档进行操作。&lt;/li&gt;
+&lt;li&gt;NGINX 开启 ssl 的时候，一定要将回调地址的 http 改为 https。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;安装走起&#34;&gt;安装走起&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;yarn install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;yarn build&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;成功执行完这两步后，会在 app 的同级目录生成 build 文件。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;检查所有的依赖的服务以及其配置项&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;yarn sequelize:migrate&lt;/code&gt; 或 &lt;code&gt;yarn sequelize:migrate --env=production-ssl-disabled&lt;/code&gt;（不需要 ssl 时，使用该方式）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;yarn start&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;若需要后台挂起可使用 pm2，使用 &lt;code&gt;NODE_ENV=production pm2 start ./build/server/index.js --name outline&lt;/code&gt;。短暂的测试进程挂起可使用：&lt;code&gt;nohup node ./build/server/index.js &amp;amp;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;最后看自身的需求要不要配置-nginx&#34;&gt;最后看自身的需求要不要配置 Nginx&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一下是我自己的配置信息&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; /etc/nginx/conf.d/
+$ touch outline.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nginx&#34; data-lang=&#34;nginx&#34;&gt;&lt;span class=&#34;k&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;kn&#34;&gt;listen&lt;/span&gt;	&lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;# listen 443 ssl;
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;kn&#34;&gt;server_name&lt;/span&gt;	&lt;span class=&#34;s&#34;&gt;hostname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+	&lt;span class=&#34;kn&#34;&gt;access_log&lt;/span&gt;	&lt;span class=&#34;s&#34;&gt;/var/log/nginx/outline.log&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+	&lt;span class=&#34;kn&#34;&gt;location&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;kn&#34;&gt;proxy_pass&lt;/span&gt;	&lt;span class=&#34;s&#34;&gt;http://127.0.0.1:3000/&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/outline/outline&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;outline 官方指导&lt;/a&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>postgres in 2 hours</title>
+      <link>https://threeandtwo.github.io/posts/studypostgres001/</link>
+      <pubDate>Tue, 05 Jan 2021 08:39:28 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/studypostgres001/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;这里已经假定服务安装完毕，且能正常访问。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;查询数据所有的数据库&#34;&gt;查询数据所有的数据库&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgres&#34; data-lang=&#34;postgres&#34;&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;l&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;切换数据库&#34;&gt;切换数据库&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;c&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;退出数据库&#34;&gt;退出数据库&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建删除数据库&#34;&gt;创建、删除数据库&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;DATABASE&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;DATABASE&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查询数据库版本信息&#34;&gt;查询数据库版本信息&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;从指定文件读物命令&#34;&gt;从指定文件读物命令&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;sql&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;sql-设置单步模式&#34;&gt;sql 设置单步模式&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;n&#34;&gt;psql&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_db&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建新表&#34;&gt;创建新表&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;            &lt;span class=&#34;nb&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;         &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;-- 最低温度
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;temp_hi&lt;/span&gt;         &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;-- 最高温度
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;prcp&lt;/span&gt;            &lt;span class=&#34;nb&#34;&gt;real&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;-- 湿度
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;date&lt;/span&gt;            &lt;span class=&#34;nb&#34;&gt;date&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在命令行中表现为：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/skh23d&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2021/01/05/skh23d.png&#34;
+        alt=&#34;skh23d.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Notice&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;psql 可以识别该命令直到分号才结束。&lt;/li&gt;
+&lt;li&gt;SQL 是对关键字和标识符大小写不敏感的语言，只有在标识符用双引号包围时才能保留它们的大小写。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;postgresql-支持的-sql-类型&#34;&gt;PostgreSQL 支持的 SQL 类型&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;int&lt;/li&gt;
+&lt;li&gt;smallint&lt;/li&gt;
+&lt;li&gt;real&lt;/li&gt;
+&lt;li&gt;double precision&lt;/li&gt;
+&lt;li&gt;char(N)&lt;/li&gt;
+&lt;li&gt;varchar(N)&lt;/li&gt;
+&lt;li&gt;date&lt;/li&gt;
+&lt;li&gt;time&lt;/li&gt;
+&lt;li&gt;timestamp&lt;/li&gt;
+&lt;li&gt;interval&lt;/li&gt;
+&lt;li&gt;持其他的通用功能的类型和丰富的几何类型&lt;/li&gt;
+&lt;li&gt;可以定制任意数量的用户定义数据类型，单不能是 psql 的关键字&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;删除数据表&#34;&gt;删除数据表&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exist_table&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;插入数据&#34;&gt;插入数据&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;into&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;values&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;San Francisco&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;46&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;25&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;1994-11-27&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 指定列名
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;into&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_hi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prcp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;date&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;values&lt;/span&gt; 
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;pk&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;43&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;57&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;1994-11-29&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 插入多行
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;into&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_hi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prcp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;date&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;values&lt;/span&gt; 
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;pk&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;43&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;57&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;1994-11-30&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;pk&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;44&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;58&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;1994-12-01&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查询数据&#34;&gt;查询数据&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 指定列名
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prcp&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 表达式运算
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_hi&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_avg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;date&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- order by
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;order&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prcp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 去重
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;distinct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;多表连接查询&#34;&gt;多表连接查询&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;c1&#34;&gt;-- inner join
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;inner&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;join&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- left outer join
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;left&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;outer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;join&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- right outer join
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;right&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;outer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;join&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- full outer join
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;w&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;w&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 表别名
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;full&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;outer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;join&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cities&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;聚合函数&#34;&gt;聚合函数&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;c1&#34;&gt;-- max
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- min
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;min&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- 子查询
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- group by
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;group&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- having
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;group&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;having&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;45&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;-- like
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weather&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;like&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;S%&amp;#39;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;group&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;having&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;temp_lo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mac 上安装 Tesseract 采坑集锦</title>
+      <link>https://threeandtwo.github.io/posts/macos%E7%8E%A9%E8%BD%ACtesseract/</link>
+      <pubDate>Wed, 16 Dec 2020 11:15:52 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/macos%E7%8E%A9%E8%BD%ACtesseract/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;差点就在这坑底躺平了！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;能用 Docker 解决的，就不要这么采坑了！&lt;/p&gt;
+&lt;p&gt;通篇只踩了通过 brew 的安装依赖，编译安装 tesseract 的坑。&lt;/p&gt;
+&lt;p&gt;但如果问这篇文章有什么可以借鉴的，大概是思路吧。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;环境验证&#34;&gt;环境验证&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果只是想体验一下 tesseract，而没有实际训练模型的需求，那么&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ brew install tesseract
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;是可以满足你的需求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果已经使用了 1 安装后，发现需要训练数据，则需要先把通过 brew 安装的 &lt;code&gt;tesseract&lt;/code&gt; 删掉，即&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ brew uninstall tesseract
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;也许发现并不能成功写在，出现了以下提示&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Error: Refusing to uninstall tesseract&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;则，使用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ brew uninstall --ignore-dependencies tesseract
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;tesseract-安装&#34;&gt;tesseract 安装&lt;/h3&gt;
+&lt;h4 id=&#34;安装走起&#34;&gt;安装走起&lt;/h4&gt;
+&lt;h5 id=&#34;1-安装依赖&#34;&gt;1. 安装依赖&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里不会出问题&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ brew install automake autoconf libtool
+$ brew install pkgconfig
+$ brew install icu4c
+$ brew install leptonica
+&lt;span class=&#34;c1&#34;&gt;# Packages required for training tools.&lt;/span&gt;
+$ brew install pango
+&lt;span class=&#34;c1&#34;&gt;# Optional packages for extra features.&lt;/span&gt;
+$ brew install libarchive
+&lt;span class=&#34;c1&#34;&gt;# Optional package for builds using g++.&lt;/span&gt;
+$ brew install gcc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;2-编译安装-tesseract&#34;&gt;2. 编译安装 tesseract&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里比较安全，但是可能出错&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ git clone https://github.com/tesseract-ocr/tesseract/
+$ &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tesseract
+$ ./autogen.sh
+$ mkdir build
+$ &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ps: 官方极力回避，直接使用 Mac 的 Clang 编译文件，确实也是编译生成的文件，往后执行的时候是会报错的。因此&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 brew 安装 gcc&lt;/li&gt;
+&lt;li&gt;检查 brew gcc 的版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 如果已执行，则直接执行下面的命令&lt;/span&gt;
+$ brew install gcc 
+$ brew info gcc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会看到：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3sUFe&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3sUFe.png&#34;
+        alt=&#34;r3sUFe.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;以我的为例，则为 gcc-10&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ ../configure &lt;span class=&#34;nv&#34;&gt;CC&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcc-10 &lt;span class=&#34;nv&#34;&gt;CXX&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;g++-10 &lt;span class=&#34;nv&#34;&gt;CPPFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-I/usr/local/opt/icu4c/include -I/usr/local/opt/pango/include&amp;#34;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LDFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib&amp;#34;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PKG_CONFIG_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/usr/local/opt/icu4c/lib/pkgconfig
+
+$ make -j
+$ sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;截止这里为止，tesseract 其实已经安装完成了，可以通过&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ tesseract --version
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进行验证&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3yjUS&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3yjUS.png&#34;
+        alt=&#34;r3yjUS.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;h5 id=&#34;3-编译安装-tesseract-train&#34;&gt;3. 编译安装 tesseract train&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里很可能有问题&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ make training
+$ sudo make training-install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进行验证&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r365ZV&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r365ZV.png&#34;
+        alt=&#34;r365ZV.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;关于版本的坑&#34;&gt;关于版本的坑&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;刚开始傻乎乎的直接 clone 了 git 上的最新版本的，并木有去找最新  release 版本。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;报错详情&#34;&gt;报错详情&lt;/h5&gt;
+&lt;p&gt;在执行到 &lt;code&gt;make training&lt;/code&gt; 的时候&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3cDyR&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3cDyR.png&#34;
+        alt=&#34;r3cDyR.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;出现了喜大普奔的：ld: symbol(s) not found for architecture x86_6&lt;/p&gt;
+&lt;h5 id=&#34;解决方案&#34;&gt;解决方案&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3cRYD&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3cRYD.png&#34;
+        alt=&#34;r3cRYD.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling.md#macos-building-for-arm-apple-darwin64&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;传送门 &amp;ndash; macOS: building for arm-apple-darwin64&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;出现这一问题后，我直接将版本回退了，回退了成我当前的 release 的最新版本，即：4.1.1 版本。并未验证 5.0.0 的 5.0.0-alpha 版本。若执意要踩，也许下面的传送门，能帮到你。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tesseract-ocr/tesseract/issues/2334&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;传送门 &amp;ndash; 5.0.0-alpha issue&lt;/a&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;关于-make-train-的坑&#34;&gt;关于 make train 的坑&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一度卡在这里，差点就想用 docker ，放弃采坑了惹。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;为什么会卡在这里&#34;&gt;为什么会卡在这里？&lt;/h5&gt;
+&lt;p&gt;因为最开始使用的是官方文档上的&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ ../configure &lt;span class=&#34;nv&#34;&gt;CC&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcc-10 &lt;span class=&#34;nv&#34;&gt;CXX&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;g++-10 &lt;span class=&#34;nv&#34;&gt;PKG_CONFIG_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/usr/local/opt/icu4c/lib/pkgconfig:/usr/local/opt/libarchive/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后意（毫）料（无）之（防）中（备）的出现了下面的问题&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;/bin/sh ../libtool  --tag&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;CXX   --mode&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;link g++-6  -g -O2 -std&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;c++11  -L/usr/local/opt/icu4c/lib -o text2image text2image.o libtesseract_training.la libtesseract_tessopt.la  -licui18n -licuuc  ../api/libtesseract.la -licui18n -licuuc -lpango-1.0 -lpangocairo-1.0 -lgobject-2.0 -lglib-2.0 -lcairo -lpangoft2-1.0 -lfontconfig  -L/usr/local/Cellar/leptonica/1.74.4/lib -llept
+libtool: link: g++-6 -g -O2 -std&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;c++11 -o .libs/text2image text2image.o -Wl,-bind_at_load  -L/usr/local/opt/icu4c/lib ./.libs/libtesseract_training.a ./.libs/libtesseract_tessopt.a ../api/.libs/libtesseract.dylib -L/usr/local/Cellar/leptonica/1.74.4/lib -licui18n -licuuc -lpango-1.0 -lpangocairo-1.0 -lgobject-2.0 -lglib-2.0 -lcairo -lpangoft2-1.0 -lfontconfig -llept -fopenmp
+ld: library not found &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; -lpango-1.0
+collect2: error: ld returned &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; status
+make&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: *** &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;text2image&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Error &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+make: *** &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;training&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Error &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;排查思路是什么&#34;&gt;排查思路是什么？&lt;/h5&gt;
+&lt;p&gt;刚开始看到这个错误的时候，心想直接在 .zshrc 文件中手动指定就可以找得到了（前提是你确定自己安装了 pango）&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r352z8&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r352z8.png&#34;
+        alt=&#34;r352z8.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;.zshrc&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;#添加到gcc头文件&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;C_INCLUDE_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$C_INCLUDE_PATH&lt;/span&gt;:/usr/local/Cellar/pango/1.48.0/lib
+&lt;span class=&#34;c1&#34;&gt;#添加到g++头文件路径&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;CPLUS_INCLUDE_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$CPLUS_INCLUDE_PATH&lt;/span&gt;:/usr/local/Cellar/pango/1.48.0/lib
+&lt;span class=&#34;c1&#34;&gt;#添加到动态库&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LD_LIBRARY_PATH&lt;/span&gt;:/usr/local/Cellar/pango/1.48.0/lib
+&lt;span class=&#34;c1&#34;&gt;#添加到静态库&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LIBRARY_PATH&lt;/span&gt;:/usr/local/Cellar/pango/1.48.0/lib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;本来以为万事大吉，重新 &lt;code&gt;make training&lt;/code&gt; 的时候，我哭了&amp;hellip;&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3I8Og&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3I8Og.png&#34;
+        alt=&#34;r3I8Og.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;gobject 是个什么鬼啊？按理来说，和上一步一样，加到 .zshrc 文件中即可。问题接踵而至：MacOS 上面确实没有这个库的啊，brew search 了一下，也没有。作何解？&lt;/p&gt;
+&lt;p&gt;那么回到上一步，继续看 pango 的问题。实际看看 pkg-config，确认下是否真的缺少了 pango 的包，还是说，编译时找不到。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ pkg-config pango --libs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;看到了下面的信息：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3I56O&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3I56O.png&#34;
+        alt=&#34;r3I56O.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;那么说明，pango 显然是存在的，在生成 makefile 文件的时候，缺损了什么信息，导致没找到。查看一下（内心 OS：想看看 configure 文件的配置参数以及其作用和意义。）&lt;/p&gt;
+&lt;p&gt;那么直接修改 makefile 文件，继而重新 &lt;code&gt;make training&lt;/code&gt; 应该没问题。&lt;/p&gt;
+&lt;p&gt;然后去修改了，makefile 文件，手动添加了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-makefile&#34; data-lang=&#34;makefile&#34;&gt;&lt;span class=&#34;nv&#34;&gt;LDFLAGS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; -L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;发现还是报同样的错误。。。&lt;/p&gt;
+&lt;p&gt;算了，还是查 configure 文件的参数吧！&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ /Users/kai/Downloads/tesseract-4.1.1/build
+$ ../configure --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会看到&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/r3xCtS&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s3.ax1x.com/2020/12/17/r3xCtS.png&#34;
+        alt=&#34;r3xCtS.png&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;最后发现：在生成 makefile 文件的时候，需要指定：&lt;code&gt;LDFLAGS&lt;/code&gt; 以及 &lt;code&gt;CPPFLAGS&lt;/code&gt;，即：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;nv&#34;&gt;CPPFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-I/usr/local/opt/icu4c/include -I/usr/local/opt/pango/include&amp;#34;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LDFLAGS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;心得是什么&#34;&gt;心得是什么？&lt;/h5&gt;
+&lt;p&gt;一步步的排查，去官方渠道找排查思路。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;未踩的组合是什么&#34;&gt;未踩的组合是什么？&lt;/h5&gt;
+&lt;p&gt;按理来说，直接修改 makefile 文件是可以生效编译的，我自己将最后成功安装的 makefile 文件和之前失败的对比了，因为我之前修改 makefile 文件的时候，只添加了 &lt;code&gt;LDFLAGS&lt;/code&gt; 的参数，而并没有添加 &lt;code&gt;CPPFLAGS&lt;/code&gt;。不确定是否因为这个原因导致 &lt;code&gt;make training&lt;/code&gt; 失败的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;最后&#34;&gt;最后&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;跪求各位不要转载未经验证的东西了，翻译也可以直接表明翻译。&lt;/li&gt;
+&lt;li&gt;docker 真香系列。&lt;/li&gt;
+&lt;li&gt;如果本文有歧义，请联系我，谢谢！&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;参考文档&#34;&gt;参考文档&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tesseract-ocr/tessdoc&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;1. 官方文档，这里最靠谱&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling.md#macos&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;2. 编译安装的官方文档&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tesseract-ocr/tesseract/issues/1028&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;3. issue for &lt;code&gt;make training&lt;/code&gt; ld error when building 4.0 on macOS&lt;/a&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go 内存逃逸分析</title>
+      <link>https://threeandtwo.github.io/posts/escape_analysis_for_go/</link>
+      <pubDate>Wed, 22 Jul 2020 11:28:58 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/escape_analysis_for_go/</guid>
+      <description>&lt;h3 id=&#34;一栈和堆&#34;&gt;一、栈和堆&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;速度（相对而言）&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;优点&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;缺点&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;栈&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;快&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;分配速度快，CPU 执行 “PUSH”, &amp;ldquo;RELEASSE&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;容量小&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;堆&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;慢&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;可根据需要分配内存&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;分配速度慢（先找到一块合适的内存快，然后 GC 跟踪才能最终被释放）；容易产生内存碎片&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;二什么是逃逸分析&#34;&gt;二、什么是逃逸分析？&lt;/h3&gt;
+&lt;p&gt;**简单的理解：**它决策一个变量应该被分配在栈上还是堆上。&lt;/p&gt;
+&lt;p&gt;**《编译原理》中指的逃逸分析：**分析指针动态范围的方法。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Go 中的逃逸分析：&lt;/strong&gt; 编译器执行静态代码分析后，对内存管理的简化和优化。&lt;/p&gt;
+&lt;h3 id=&#34;三为什么编译器要进行逃逸分析&#34;&gt;三、为什么编译器要进行逃逸分析？&lt;/h3&gt;
+&lt;p&gt;其实看到一的内容，心里大概就七七八八了。因为变量使用栈和堆的代价不同，而栈是有“限制”的（相对），因此就需要将变量合理的分配到合适的区域。&lt;/p&gt;
+&lt;p&gt;假设，一个变量本应该被分配在栈上，而去了堆区的话，则会触发 GC 机制。相对而言，栈则可以自动清理。其中的代价也是不低的。&lt;/p&gt;
+&lt;p&gt;通过逃逸分析，可以尽量把那些不需要分配到堆上的变量直接分配到栈上，堆上的变量少了，会减轻分配堆内存的开销，同时也会减少gc的压力，提高程序的运行速度。&lt;/p&gt;
+&lt;h3 id=&#34;四那么我们怎么知道一个变量应该被分配在对上还是栈上&#34;&gt;四、那么我们怎么知道一个变量应该被分配在对上还是栈上？&lt;/h3&gt;
+&lt;p&gt;我们其实是不知道的，或者是不需要知道的。因为这是 Go 编译器的工作。但是可以简单的做如下理解：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果函数外部没有引用，则优先放到栈中。&lt;/li&gt;
+&lt;li&gt;如果函数外部存在引用，则必定放到堆中。&lt;/li&gt;
+&lt;li&gt;如果 1 中的变量占用内存较多，超出栈的存储能力，则会被置于堆中。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;五编译器是如何做逃逸分析的&#34;&gt;五、编译器是如何做逃逸分析的？&lt;/h3&gt;
+&lt;p&gt;**Go 编译器做逃逸分析的基本原则：**如果一个函数返回对一个变量的引用，则触发逃逸。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Go 编译器逃逸分析的过程：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;编译器分析代码的特征，以及代码的生命周期。&lt;/li&gt;
+&lt;li&gt;向编译器证明变量自身的引用情况，被引用和没有被引用，无法证明。&lt;/li&gt;
+&lt;li&gt;如果没有被引用，则被放置到栈中。&lt;/li&gt;
+&lt;li&gt;如果没有被引用，或无法证明的情况下，则被放置到堆中。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2020/07/22/UHM4hR.png&#34; alt=&#34;UHM4hR.png&#34; style=&#34;zoom:50%;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;**判断的核心是：**变量是否被引用了，而不是取地址符（联想 GC 的处理过程更容易理解）&lt;/p&gt;
+&lt;p&gt;比如：对一个变量取地址符，则这个变量可能被分配到堆上。但是如果你只是拿到了这个变量的引用，但是没有使用，编译器进行逃逸分析之后，判定该变量没有被引用，则最终会被分配到栈上。因此，重要的是使用变量的引用，而不是拿到引用！&lt;/p&gt;
+&lt;p&gt;Go 语言中没有一个关键字或者函数可以直接让变量被编译器分配到堆上，相反，编译器通过分析代码来决定将变量分配到何处。&lt;/p&gt;
+&lt;h3 id=&#34;六逃逸分析案例&#34;&gt;六、逃逸分析案例&lt;/h3&gt;
+&lt;h4 id=&#34;测试环境&#34;&gt;测试环境&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;go version go1.14.4 darwin/amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;测试代码&#34;&gt;测试代码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// Go 逃逸分析案例
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Println&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;测试&#34;&gt;测试&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;go build -gcflags &lt;span class=&#34;s1&#34;&gt;&amp;#39;-m -l&amp;#39;&lt;/span&gt; escape1.go
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# command-line-arguments&lt;/span&gt;
+./escape1.go:6:2: moved to heap: t
+./escape1.go:13:13: ... argument does not escape
+./escape1.go:13:14: *x escapes to heap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;个人理解，&lt;code&gt;t&lt;/code&gt;应该是逃逸了，为什么没有打印呢？之前大佬测试的版本结果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# command-line-arguments&lt;/span&gt;
+src/main.go:7:9: &lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;t escapes to heap
+src/main.go:6:7: moved to heap: t
+src/main.go:12:14: *x escapes to heap
+src/main.go:12:13: main ... argument does not escape
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;明确打印了&lt;code&gt;t&lt;/code&gt;逃逸了！&lt;/p&gt;
+&lt;p&gt;再使用 GO 伪汇编代码查看：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;go tool compile -S escape1.go
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果：&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/22/UHwAyQ.png&#34;
+        alt=&#34;UHwAyQ.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;最后：请教了大佬，大佬回复说算。突然转念一想，&lt;code&gt;moved to heap: t&lt;/code&gt;，不是很明确了吗，从堆上移除了变量 &lt;code&gt;t&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;七参考&#34;&gt;七、参考&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://golang.org/doc/faq#stack_or_heap&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;四问题的官方更为详细的解释&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://juejin.im/post/5c7920f3e51d457120759b77&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Golang之变量去哪儿？&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go-GC 详解（理论）</title>
+      <link>https://threeandtwo.github.io/posts/gc_go1/</link>
+      <pubDate>Tue, 21 Jul 2020 11:44:00 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/gc_go1/</guid>
+      <description>&lt;h3 id=&#34;一前言&#34;&gt;一、前言&lt;/h3&gt;
+&lt;p&gt;Go 处在发展中，有些技术选型，或者是算法也许会在某个版本之后会被替换掉！&lt;/p&gt;
+&lt;h3 id=&#34;二问题开始的地方&#34;&gt;二、问题开始的地方&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Go 语言中，全局变量被 GC 的时机是什么？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;三go-语言设计中关于-garbage-collection-的思考&#34;&gt;三、Go 语言设计中关于 garbage collection 的思考&lt;/h3&gt;
+&lt;h4 id=&#34;1--为什么决定让-go-成为一种-garbage-collection-的语言&#34;&gt;1.  为什么决定让 Go 成为一种 garbage collection 的语言?&lt;/h4&gt;
+&lt;p&gt;在此之前，需要了解 Go 与 C 之间是有关系的，官方将其归入为 C 家族（从基本语法角度）。&lt;/p&gt;
+&lt;h5 id=&#34;先看-c--c-语言&#34;&gt;先看 C / C++ 语言&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;设计倾向于暴露内存管理的细节，导致处理不好，很容易出 bug。&lt;/li&gt;
+&lt;li&gt;因为工程师写写代码时要考虑内存的分配和释放，使得版本更新迭代的周期较慢。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h5 id=&#34;再看-java-语言&#34;&gt;再看 Java 语言&lt;/h5&gt;
+&lt;p&gt;设计了 GC，同时存在以下几个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;开销的不可控性。&lt;/li&gt;
+&lt;li&gt;更大概率的高延迟性。&lt;/li&gt;
+&lt;li&gt;业务上为了获得良好的性能，需要进行大量的调参。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h5 id=&#34;最后看-go-的选择&#34;&gt;最后看 Go 的选择&lt;/h5&gt;
+&lt;p&gt;首先要强调，Go 是一门并发语言。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Concurrency is hard without garbage collection。&lt;/li&gt;
+&lt;li&gt;缓冲区与包含该结构的内存块一起分配，因此不需要间接访问。&lt;/li&gt;
+&lt;li&gt;Go 提供了 &lt;code&gt;second-order allocators&lt;/code&gt;（比如：arena），只要适当安排结构，就不会产生垃圾，且保证了高效和响应速度。&lt;/li&gt;
+&lt;li&gt;目前的设计是一个并行标记和扫描收集器，仍然有机会改进其性能，甚至可能改进其设计。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;2-引入-garbage-collection-后的带来了什么&#34;&gt;2. 引入 garbage collection 后的带来了什么？&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;语言的一般性开销。&lt;/li&gt;
+&lt;li&gt;GC 过程中产生的延迟。&lt;/li&gt;
+&lt;li&gt;语言实现的复杂性（GC 实现的成本将由语言开发者去承担，普通程序员则更为受益）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;四go-gc-几次重要的改动&#34;&gt;四、Go GC 几次重要的改动&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;v1.1 STW。&lt;/li&gt;
+&lt;li&gt;v1.3 Mark STW, Sweep 并行。&lt;/li&gt;
+&lt;li&gt;v1.5 三色标记法。&lt;/li&gt;
+&lt;li&gt;v1.8 hybrid write barrier。&lt;/li&gt;
+&lt;li&gt;v1.9 GC 改为并发 GC&lt;/li&gt;
+&lt;li&gt;v1.12 优化 mark termination&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&amp;hellip;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;五初步了解-gc-算法以及垃圾回收统一理论&#34;&gt;五、初步了解 GC 算法以及垃圾回收统一理论&lt;/h3&gt;
+&lt;p&gt;所有的 GC 算法，按照其存在形式可以划分为三种：① 追踪（Tracing）② 引用计数（Reference Counting）③ 前面两种的混合运用。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;追踪式 GC：从根对象出发，根据对象之间的引用信息，一步步推进直到扫描完毕整个堆并确定需要保留的对象，从而回收所有可回收的对象。&lt;/li&gt;
+&lt;li&gt;引用技术式 GC：每个对象自身包含一个被引用的计数器，当计数器归零时自动得到回收。因为此方法缺陷较多，在追求高性能时通常不被应用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;常见-gc-实现方式&#34;&gt;常见 GC 实现方式&lt;/h4&gt;
+&lt;h5 id=&#34;追踪式&#34;&gt;追踪式：&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;标记清扫：从根对象出发，将确定存活的对象进行标记，并清扫可以回收的对象。&lt;/li&gt;
+&lt;li&gt;标记整理：为了解决内存碎片问题而提出，在标记过程中，将对象尽可能整理到一块连续的内存上。&lt;/li&gt;
+&lt;li&gt;增量式：将标记与清扫的过程分批执行，每次执行很小的部分，从而增量的推进垃圾回收，达到近似实时、几乎无停顿的目的。&lt;/li&gt;
+&lt;li&gt;增量整理：在增量式的基础上，增加对对象的整理过程。&lt;/li&gt;
+&lt;li&gt;分代式：将对象根据存活时间的长短进行分类，存活时间小于某个值的为年轻代，存活时间大于某个值的为老年代，永远不会参与回收的对象为永久代。并根据分代假设（如果一个对象存活时间不长则倾向于被回收，如果一个对象已经存活很长时间则倾向于存活更长时间）对对象进行回收。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;引用计数式&#34;&gt;引用计数式：&lt;/h5&gt;
+&lt;p&gt;​	根据对象自身的引用计数来回收，当引用计数归零时立即回收。&lt;/p&gt;
+&lt;h4 id=&#34;todo-垃圾回收统一定理a-unified-theory-of-garbage-collection&#34;&gt;TODO: 垃圾回收统一定理（A unified theory of garbage collection）&lt;/h4&gt;
+&lt;p&gt;实际应用中一般分为两类，从理论上，则归结为一种，对其进行统一描述即&lt;strong&gt;垃圾回收统一定理（A unified theory of garbage collection）&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;七谈及三色标记法时实际上在说什么&#34;&gt;七、谈及三色标记法时实际上在说什么？&lt;/h3&gt;
+&lt;p&gt;实际上不具有实际含义，只是形象的描述追踪式回收器的状态，其重要作用在于从逻辑上严密推导标记清理这种垃圾回收方法的正确性。简而言之，指标记清扫的垃圾回收。&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/21/UoKgHA.png&#34;
+        alt=&#34;垃圾回收波面示意图&#34;/&gt;&lt;/p&gt;
+&lt;h4 id=&#34;垃圾回收过程示意图&#34;&gt;垃圾回收过程示意图&lt;/h4&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/21/UoM9u4.png&#34;
+        alt=&#34;垃圾回收过程示意图&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/21/UotqQ1.png&#34;
+        alt=&#34;官方的算法描述&#34;/&gt;&lt;/p&gt;
+&lt;h5 id=&#34;对象的三种颜色判断&#34;&gt;对象的三种颜色判断&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 是否为白色对象
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;isWhite&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&#34;c1&#34;&gt;// 是否为灰色
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;isGrey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Find&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&#34;c1&#34;&gt;// 是否为黑色
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;isBlack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;isGrey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;八标记清扫&#34;&gt;八、标记清扫&lt;/h3&gt;
+&lt;p&gt;自动内存管理涉及到内存自动回收&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/21/UoY4Cd.png&#34;
+        alt=&#34;UoY4Cd.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;赋值器：指用户态代码。因为对垃圾回收器而言，需要回收的内存是由用户态的代码产生的， 用户态代码仅仅只是在修改对象之间的引用关系（对象之间引用关系的一个有向图，即对象图） 进行操作。&lt;/p&gt;
+&lt;p&gt;回收器：为程序运行时负责执行垃圾回收的代码。&lt;/p&gt;
+&lt;h4 id=&#34;串行标记清扫&#34;&gt;串行标记清扫&lt;/h4&gt;
+&lt;h5 id=&#34;标记追踪从根集合寄存器执行栈全局变量开始遍历对象图标记遇到的每个对象&#34;&gt;标记追踪：从根集合（寄存器、执行栈、全局变量）开始遍历对象图，标记遇到的每个对象。&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Init&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;                       &lt;span class=&#34;c1&#34;&gt;// 初始化标记 work 列表
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;root&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;roots&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;// 从根开始扫描
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;root&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 标记每个遇到的对象
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;nf&#34;&gt;setMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Empty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// ref 已经标记过
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;                &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;fld&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Pointers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                    &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;fld&lt;/span&gt;
+                    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                        &lt;span class=&#34;nf&#34;&gt;setMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+                        &lt;span class=&#34;nx&#34;&gt;worlist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+                    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+                &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;清扫回收检查堆中每一个对象将所有未标记的对象当做垃圾进行回收&#34;&gt;清扫回收：检查堆中每一个对象，将所有未标记的对象当做垃圾进行回收。&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sweep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// 检查堆区间内所有的对象
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;End&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Next&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nf&#34;&gt;unsetMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nf&#34;&gt;free&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 将未标记的对象释放
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;并发标记清扫&#34;&gt;并发标记清扫&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;并发标记思想&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;markSome&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;empty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;// 初始化回收过程
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;nf&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Roots&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;// 赋值器不持有任何白色对象的引用
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;empty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;// 此时灰色对象已经全部处理完毕
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;nf&#34;&gt;sweep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;// 标记结束，立即清扫
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// 回收过程尚未完成，后续过程仍需标记
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;scan&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;fld&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Pointers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;fld&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nf&#34;&gt;shade&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;shade&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;isMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nf&#34;&gt;setMarked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;worklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;​	在这个过程中，回收器会首先扫描 worklist，而后对根集合进行扫描并重新建立 worklist。 在根集合扫描过程中赋值器现场被挂起时，扫描完成后则不会再存在白色对象。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;并发清扫思想&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;collectEnough&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;allocate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Out of memory&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;collectEnough&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;stopTheWorld&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;defer&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;startTheWorld&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;behind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// behind() 控制回收工作每次的执行量
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;markSome&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://talks.golang.org/2012/splash.article#TOC_14.&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Go at Google: Language Design in the Service of Software Engineering&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://talks.golang.org/2009/go_talk-20091030.pdf&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;2009 GoTalk&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://web.eecs.umich.edu/~weimerw/2012-4610/reading/bacon-garbage.pdf&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Bacon, David F., Perry Cheng, and V. T. Rajan.  A unified theory of garbage collection.”&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://lamport.azurewebsites.net/pubs/garbage.pdf&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Edsger W. Dijkstra, Leslie Lamport, A. J. Martin, C. S. Scholten, and E. F. M. Steffens. 1978. On-the-fly garbage collection: an exercise in cooperation.&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.org/doc/faq#garbage_collection&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Why do garbage collection? Won&amp;rsquo;t it be too expensive? &lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;http://changkun.de/golang&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;强推：《Go 语言原本》&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Goland 使用技巧</title>
+      <link>https://threeandtwo.github.io/posts/goland-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sat, 18 Jul 2020 10:43:56 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/goland-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Goland 版本：2020.1，Go 夜读 Goland 视频整理笔记&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;1-渔----快捷键查询&#34;&gt;1. 渔 &amp;ndash; 快捷键查询&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae01.alicdn.com/kf/H6e8d2ba10e1446939d9ee30524428c9bt.jpg&#34;
+        alt=&#34;keymap.gif&#34;/&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-switcher-窗口切换&#34;&gt;2. Switcher 窗口切换&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/18/UgzLh4.png&#34;
+        alt=&#34;UgzLh4.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​					IKBC Poker2：&lt;strong&gt;ctrl + tab&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae04.alicdn.com/kf/Hd6652460e72349598bf78948ad7a89500.jpg&#34;
+        alt=&#34;操作演示&#34;/&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3-quick-documentation&#34;&gt;3. Quick Documentation&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2020/07/18/U29676.png&#34; alt=&#34;U29676.png&#34; style=&#34;zoom:79%;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;​					IKBC Poker2：&lt;strong&gt;Fn + 1&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae03.alicdn.com/kf/Hd5a87726fa6a45a8a58773acbf9f55a2g.jpg&#34;
+        alt=&#34;操作演示&#34;/&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4-调取--隐藏-左侧的-project-区域获得最大写代码的空间&#34;&gt;4. 调取 / 隐藏 左侧的 Project 区域（获得最大写代码的空间）&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/18/U2DP6f.png&#34;
+        alt=&#34;U2DP6f.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​							IKBC Poker：&lt;strong&gt;Win + 1&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae02.alicdn.com/kf/Ha55c4e46427147b7af1545a70f219833D.jpg&#34;
+        alt=&#34;project.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;：当鼠标的焦点在代码区域时，快捷键需要按两次，第一次是将焦点放到左侧的 Project 上面，第二次则执行隐藏 Project 的操作。&lt;/p&gt;
+&lt;h3 id=&#34;5-code-completion---basic&#34;&gt;5. Code Completion -&amp;gt; Basic&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/18/U2sGWR.png&#34;
+        alt=&#34;U2sGWR.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;IKBC Proker：&lt;strong&gt;ctrl + space&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae02.alicdn.com/kf/H19ab0b4d8ab74942820de752d4cc5c57e.jpg&#34;
+        alt=&#34;CodeCompletion.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;当鼠标放在不同位置时，Goland 智能提示会有变化！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果 Mac 上安装了 Thing3，快捷键可能有冲突，可以选择更改 thing3 的快捷键或者关掉&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2020/07/18/U26VK0.png&#34; alt=&#34;U26VK0.png&#34; style=&#34;zoom:80%;&#34; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;6-recent-file---show-changed-only&#34;&gt;6. Recent File - Show changed only&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URCpe1.png&#34;
+        alt=&#34;URCpe1.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​				IKBC Poker：&lt;strong&gt;WIN + E&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2020/07/19/URCBfU.png&#34; alt=&#34;URCBfU.png&#34; style=&#34;zoom:95%;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;连续按两次快捷键，选定复选框，则会按照最近修改文件的顺序排序&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;7-recent-location---show-changed-only&#34;&gt;7. Recent Location - Show changed only&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URPwDA.png&#34;
+        alt=&#34;URPwDA.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;IKBC Poker：&lt;strong&gt;WIN + Shift + E&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URiP2D.png&#34;
+        alt=&#34;URiP2D.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果 Mac 上安装了“搜狗拼音”，则快捷键会发生冲突！可选择将“搜狗拼音”的改选项设置为“禁用快捷键”或者更改“搜狗拼音”的改选项的快捷键。&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URVXrD.png&#34;
+        alt=&#34;URVXrD.png&#34;/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;8-快速写代码&#34;&gt;8. 快速写代码&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae01.alicdn.com/kf/Hf50ffb6db1db4bfe9f1e20bd5a467150F.jpg&#34;
+        alt=&#34;快读写代码.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;nn 代表 not nil&lt;/li&gt;
+&lt;li&gt;具体的补全，打.之后选择不同的选项就好，且有说明&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;9-搜索---search-everywhere&#34;&gt;9. 搜索 - Search Everywhere&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URZUiR.png&#34;
+        alt=&#34;URZUiR.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​								ALL(IKBC Poker)：shift*2&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae04.alicdn.com/kf/H969f195915f749bf9a9b795974bca566B.jpg&#34;
+        alt=&#34;search.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以搜索工具相关的任何东西，快捷键，方法，文件等等。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;10-窗口快速查找&#34;&gt;10. 窗口快速查找&lt;/h3&gt;
+&lt;p&gt;Goland 所有窗口都支持，指需要输入待查找的字符串（或关键字）即可&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae03.alicdn.com/kf/Hb68571b796f34f2c97429bebe4de077dn.jpg&#34;
+        alt=&#34;quicklySearch.gif&#34;/&gt;&lt;/p&gt;
+&lt;h3 id=&#34;11-快速修正代码中的错误&#34;&gt;11. 快速修正代码中的错误&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/UR1Tmt.png&#34;
+        alt=&#34;UR1Tmt.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae02.alicdn.com/kf/H35dbfbf2194b488d93a5522aee80e685l.jpg&#34;
+        alt=&#34;fixErr.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​					IKBC Poker：&lt;strong&gt;alt + enter&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;提示&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;修正有 2 中方式，一种使用鼠标去点击，一种使用快捷键&lt;/li&gt;
+&lt;li&gt;快捷键更快一些&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;12-快速运行快捷键&#34;&gt;12. 快速运行快捷键&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/UR8V58.png&#34;
+        alt=&#34;UR8V58.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;IKBC Poker：&lt;strong&gt;ctrl + Shift + R&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;13-反向快速补全代码&#34;&gt;13. 反向快速补全代码&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae03.alicdn.com/kf/H3752c986ba024d919b9fdb926cd931641.jpg&#34;
+        alt=&#34;反向操作.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tips&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;全程 &lt;strong&gt;alt + enter&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;14-goland-快速实现代码重构&#34;&gt;14. Goland 快速实现代码重构&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae01.alicdn.com/kf/He5fb510179a34a6dbf557965ebdccd2az.jpg&#34;
+        alt=&#34;代码重构.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tips&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选取要重构的代码&lt;/li&gt;
+&lt;li&gt;调出 Goland 相关面板&lt;/li&gt;
+&lt;li&gt;修改方法名&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;修改重构方法参数的正确方式&#34;&gt;修改重构方法参数的正确方式&lt;/h4&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae04.alicdn.com/kf/H3bb75bd2832f42b392ba58960cfe6f8fF.jpg&#34;
+        alt=&#34;代码重构1.gif&#34;/&gt;&lt;/p&gt;
+&lt;h3 id=&#34;15-快速定位到下一处代码发生错误的位置&#34;&gt;15. 快速定位到下一处代码发生错误的位置&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URHzBF.png&#34;
+        alt=&#34;URHzBF.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tips&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;或许有冲突，可以更改快捷键设置&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 shift*2 搜索 next&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae04.alicdn.com/kf/H8158fe30512a4b9c9a7bfa7b554197a4y.jpg&#34;
+        alt=&#34;NextHighLightError.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;然后做相应的代码修正即可！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;16-extend-selection&#34;&gt;16. Extend Selection&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/19/URjMlR.png&#34;
+        alt=&#34;URjMlR.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;​										IKBC Poker：&lt;strong&gt;alt + Fn + w&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://ae02.alicdn.com/kf/H9c5970d2e8d947d09e2bbfdc3bcfd6971.jpg&#34;
+        alt=&#34;Extend_Selection.gif&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tips&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;按照代码区块选定，可以避免鼠标选择的遗漏&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;17-show-intention-actions&#34;&gt;17. Show Intention Actions&lt;/h3&gt;
+&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://talkgo.org/t/topic/69&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;TalkGo - #50 2019-06-27 GoLand Tips &amp;amp; Tricks&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://talkgo.org/t/topic/106&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;TalkGo - #87 JetBrains GoLand 2020.1 新特性介绍&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go Runtime理解</title>
+      <link>https://threeandtwo.github.io/posts/go-runtime%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Sat, 11 Jul 2020 00:29:52 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/go-runtime%E7%90%86%E8%A7%A3/</guid>
+      <description>&lt;h3 id=&#34;什么是-runtime&#34;&gt;什么是 Runtime？&lt;/h3&gt;
+&lt;p&gt;​	是 Go 程序运行中使用的一个库，控制着：gc（garbage collector），内存分配，协程调度（goroutine scheduler）&lt;/p&gt;
+&lt;h3 id=&#34;为什么要了解-runtime&#34;&gt;为什么要了解 Runtime？&lt;/h3&gt;
+&lt;p&gt;为什么不了解 Runtime？gc 不重要吗？理解内存分配不重要吗？理解协程调度不重要吗？都很重要啊！所以更要研究啊。&lt;/p&gt;
+&lt;h3 id=&#34;runtime-初步认识&#34;&gt;Runtime 初步认识&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;协程调度，内存分配，GC&lt;/li&gt;
+&lt;li&gt;操作系统及 CPU 相关的操作的封装（信号处理，系统调用，寄存器操作，原子操作等），CGO&lt;/li&gt;
+&lt;li&gt;pprof，trace，race 检测的支持&lt;/li&gt;
+&lt;li&gt;map，channel，string 等内置类型及反射的实现&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/U1S91O&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/11/U1S91O.png&#34;
+        alt=&#34;Go 代码执行简图&#34;/&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特点：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;与 Python, Ruby 相比，Runtime 并非解释器！与 java 相比，也不是虚拟机。Runtime 最后连同用户代码会一同被编译成 native code，打包成一个可执行文件中。&lt;/li&gt;
+&lt;li&gt;用户代码与 Runtime 代码在执行的时候并没有明显的界限，都是函数调用&lt;/li&gt;
+&lt;li&gt;Go 对系统调用的指令进行了封装，可不依赖于 glibc（go 实现自举后，不再为了性能而依赖其他非 go 实现的库，官方团队解释：不会为了性能，就牺牲简单和可读性）&lt;/li&gt;
+&lt;li&gt;一些 Go 关键字被编译器编译成 runtime 包下的函数&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;关键字&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;函数&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;go&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;newproc&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;new&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;newobject&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;make&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;makeslice, makechan, makemap, makemap_small&amp;hellip;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;gcStart&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;lt;-     -&amp;gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;chansend1, chanrecv1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;etc&amp;hellip;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;etc&amp;hellip;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;runtime-发展历程截止-112-版本&#34;&gt;Runtime 发展历程（截止 1.12 版本）&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/11/U1e0KI.png&#34;
+        alt=&#34;runtime 发展历程&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注&lt;/strong&gt;: GC STW时间与堆大小，机器性能，应用分配偏好，对象数量均有关。较早的版本来自网络上的数据。1.41.9数据来源于twitter工程师. 这里是以较大的堆测试，数据仅供参考。普通应用的情况好于上述的数值。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;黑色标注的是重要的优化点&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;goroutine-调度简述&#34;&gt;Goroutine 调度简述&lt;/h3&gt;
+&lt;h3 id=&#34;内存管理&#34;&gt;内存管理&lt;/h3&gt;
+&lt;h3 id=&#34;gc&#34;&gt;GC&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;参考&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Protobuf教程（译文）</title>
+      <link>https://threeandtwo.github.io/posts/protobuf%E6%95%99%E7%A8%8B%E8%AF%91%E6%96%87/</link>
+      <pubDate>Thu, 02 Jul 2020 21:05:28 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/protobuf%E6%95%99%E7%A8%8B%E8%AF%91%E6%96%87/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;知其然知其所以然！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;protobuf-的发展历史&#34;&gt;Protobuf 的发展历史&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2020/06/30/NoZWQO.png&#34; alt=&#34;NoZWQO.png&#34; style=&#34;zoom:80%;&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;序列化的发展历史&#34;&gt;序列化的发展历史&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/01/NoMRSI.png&#34;
+        alt=&#34;NoMRSI.png&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/smallnest/gosercomp&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;gosercomp&lt;/a&gt;
+ 对比了各种 go 序列化库，点击可以详细了解。&lt;/p&gt;
+&lt;h3 id=&#34;proto3-教程&#34;&gt;proto3 教程&lt;/h3&gt;
+&lt;h4 id=&#34;proto3-的主要新功能&#34;&gt;proto3 的主要新功能&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/protocolbuffers/protobuf/releases/tag/v3.0.0&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;官方 proto3 更新日志&lt;/a&gt;
+&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;删除原始值字段的出现逻辑，删除必填字段，并删除默认值。&lt;/li&gt;
+&lt;li&gt;移除 unknow 字段&lt;/li&gt;
+&lt;li&gt;移除扩展，用 Any 替代&lt;/li&gt;
+&lt;li&gt;修复未知枚举值的语义&lt;/li&gt;
+&lt;li&gt;增加了 maps 的类型（后移植到 proto2）&lt;/li&gt;
+&lt;li&gt;增加了一组标准类型、动态数据等（后移植到 proto2）&lt;/li&gt;
+&lt;li&gt;可以使用 JSON 编码代替二进制 proto 编码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;定义消息类型defining-a-message-type&#34;&gt;定义消息类型（Defining A Message Type）&lt;/h4&gt;
+&lt;h5 id=&#34;一个简单的例子&#34;&gt;一个简单的例子&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;n&#34;&gt;syntax&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;proto3&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;							&lt;span class=&#34;c1&#34;&gt;// 指定 protobuf 的版本，若不指定，则默认为 proto2，且必须是第一个非空非注释行
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchRequest&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;query&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;page_number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result_per_page&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;定义名为 SearchRequest 的 message 类型：&lt;/p&gt;
+&lt;p&gt;在示例中，都是 scalar type，包含两个整数（result_per_page, page_number）和一个字符串类型（query）。&lt;code&gt;字段也可以指定为组合类型，比如：枚举和其他消息类型&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;字段编号分配的规则&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个字段都有一个唯一的编号（用于以消息二进制格式标志字段，在确认使用消息类型后&lt;strong&gt;不应更改&lt;/strong&gt;）&lt;/li&gt;
+&lt;li&gt;1 - 15 编号，只需一个字节进行编码，而 16 - 2047 的字段编号采用两个字节。因此，&lt;code&gt;常用的消息元素应分配 1- 15,同时需要为将来可能添加的频繁出现的元素预留空间&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;编号分配的最小值为1，最大为2^29 - 1（536,870,911）。&lt;code&gt;禁用：19000 - 19999&lt;/code&gt;，因为其已被用于 Protocol Buffers 的实现。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;指定字段的规则&#34;&gt;指定字段的规则&lt;/h5&gt;
+&lt;p&gt;消息字段可以有两种选择（前提：都要确保格式良好）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;singular：0 &amp;lt;= 字段 &amp;lt;= 1，为 proto3 的默认字段规则&lt;/li&gt;
+&lt;li&gt;repeated：字段 &amp;gt;= 0，重复值的顺序将被保留&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在 proto3 中，&lt;code&gt;scalar 数值&lt;/code&gt;类型的重复字段默认使用 &lt;code&gt;packed &lt;/code&gt;编码&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Test4&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;packed&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;添加更多消息类型&#34;&gt;添加更多消息类型&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;在 .proto 文件中，可以定义多个消息类型。如：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchRequest&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;query&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;page_number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result_per_page&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchResponse&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;注释规则&#34;&gt;注释规则&lt;/h5&gt;
+&lt;p&gt;给 .proto 中添加注释时，多行使用 / * &amp;hellip; * / 语法，单行使用 // 语法。如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* SearchRequest represents a search query, with pagination options to
+&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt; * indicate which results to include in the response. */&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchRequest&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;query&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;page_number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Which page number do we want?
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result_per_page&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Number of results to return per page.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;预留字段reserved-fields&#34;&gt;预留字段（Reserved Fields）&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;若一个消息类型作废了，会想当然的将其注释掉或者删除掉该字段，当其他开发者对该类型的字段重新编号（或更新编号时）。可能会导致严重的问题。因此不能直接保留干掉！通用解法是指定保留已删除字段的字段编号（/ 或 名称，这有可能导致产生 JSON 序列化的问题），在此基础上若有开发者使用该字段的标识符，则 protobuf 编译器会发出警告。示例：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Foo&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;reserved&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;15&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;reserved&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;foo&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;bar&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;font color=&#34;#dd0000&#34;&gt;注意：不能在同一个保留语句中混合字段名和字段编号。&lt;/font&gt;&lt;/p&gt;
+&lt;h5 id=&#34;proto-文件生成了什么&#34;&gt;.proto 文件生成了什么？&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;当 protocol buffer compiler 编译 .proto 时（.proto 文件中已经定义了工作的消息类型，获取以及设置字段值），然后从输入流解析消息，将消息序列化到输出流&lt;/li&gt;
+&lt;li&gt;Go 语言中，protocol buffer compiler 会生成 .pb.go 的文件，文件中的每个消息类型都有一个类型&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/reference/overview&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Protocol Buffers API Reference 规定了更多的细节&lt;/a&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;标量值类型scalar-value-types&#34;&gt;标量值类型（Scalar Value Types）&lt;/h4&gt;
+&lt;h5 id=&#34;proto-中的类型与各语言的对应表&#34;&gt;.proto 中的类型与各语言的对应表：&lt;/h5&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;.proto&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Go&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;double&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;float64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;float&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;float32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码。 对负数进行编码效率不高——如果字段可能具有负值，则使用 sint32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码。 对负数进行编码效率不高——如果字段可能具有负值，则使用 sint64&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;sint32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码。带符号的整型值。这比常规的 int32 更有效地编码负数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;sint64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;使用可变长度编码。带符号的整型值。这比常规的 int64 更有效地对负数进行编码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;fixed32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;总是 4 个字节，如果值大于 2^28，则比 uint32 更有效&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;fixed64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;uint64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;总是 8 个字节，如果值大于 2^56，则比 uint64 更有效&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;sfixed32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;总是 4 个字节&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;sfixed64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;int64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;总是 8 个字节&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;bool&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;bool&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;字符串必须始终包含 UTF-8编码的或7位 ASCII 文本，且不能长于2^32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;bytes&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]byte&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;可以包含任意字节序列，且长度不超过 2^32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;默认值default-values&#34;&gt;默认值（Default Values）&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;字符串（string）：默认值为空字符串&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;字节（bytes）：默认值为孔子杰&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;布尔（bools）：默认值为 false&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数值类型（numeric）：默认值为 0&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;枚举类型（enums）：要求第一个枚举类型的值必须为 0&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;message 字段：如果未指定，则其默认会随着语言的变更而不同&lt;/p&gt;
+&lt;p&gt;repeated 字段的默认值为空&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;font color=&#34;#dd0000&#34;&gt;注意：&lt;/font&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对于 scalar 的消息字段，一般消息被解析，则会产生二义性。即无法判断该字段是显示设置为默认值还是压根没有设置。因此定义消息类型的时候，需要明确这一点。&lt;/li&gt;
+&lt;li&gt;若 scalar 消息字段设置为默认值，则该值将不会在序列化。（Also note that if a scalar message field &lt;strong&gt;is&lt;/strong&gt; set to its default, the value will not be serialized on the wire.）（ps: 其实不太理解 on the wire 中指代的过程。有大佬知道的话，还望解惑）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;枚举enumerations&#34;&gt;枚举（Enumerations）&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchRequest&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;query&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;page_number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result_per_page&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Corpus&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;UNIVERSAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;			&lt;span class=&#34;c1&#34;&gt;// 第一个值必须是 0
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WEB&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;IMAGES&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;LOCAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;NEWS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;PRODUCTS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;VIDEO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;Corpus&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;corpus&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;注意&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;必须有一个零值，这样我们就可以将0作为一个数值&lt;/li&gt;
+&lt;li&gt;0 值必须是第一个元素，其中第一个枚举总是默认值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h5 id=&#34;枚举类型如何起别名&#34;&gt;枚举类型如何起别名？&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;将 allow_alias 设置为 true&lt;/li&gt;
+&lt;li&gt;将相同的值分配给不同的枚举常量&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;除此之外，起别名是，编译器会发生错误消息&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MyMessage1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EnumAllowingAlias&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;allow_alias&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;UNKNOWN&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;STARTED&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;RUNNING&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MyMessage2&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EnumNotAllowingAlias&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;UNKNOWN&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;STARTED&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// RUNNING = 1;  // Uncommenting this line will cause a compile error inside Google and a warning message outside.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;font color=&#34;#dd0000&#34;&gt;注意事项：&lt;/font&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;枚举数常数必须在32位整数的范围内&lt;/li&gt;
+&lt;li&gt;不推荐使用：因为使用的是 varint encoded，且负值效率低&lt;/li&gt;
+&lt;li&gt;枚举数可能受到语言的限制&lt;/li&gt;
+&lt;li&gt;在反序列化过程中，无法识别的枚举值将被保留在消息中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;保留值reserved-values&#34;&gt;保留值（Reserved Values）&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Foo&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;reserved&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;15&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;reserved&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;FOO&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;BAR&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;使用其他消息类型using-other-message-types&#34;&gt;使用其他消息类型（Using Other Message Types）&lt;/h4&gt;
+&lt;p&gt;可以使用其他消息类型作为字段类型。&lt;/p&gt;
+&lt;p&gt;例：声明 Result 的 message，然后在 SearchResponse 中指定 Result 类型的字段&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchResponse&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Result&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Result&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;title&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;snippets&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;导入定义&#34;&gt;导入定义&lt;/h5&gt;
+&lt;p&gt;导入定义时有两种情况&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一种&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;以上例为准，若 Result 和 SearchResponse 在相同的文件中，则直接引用即可&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二种&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若在不同的文件中，则需要导入原始 .proto 文件，因此可以在 .proto 文件的顶部添加一个 import 语句&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;myproject/other_protos.proto&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;更新定义的少见情形（移动 .proto 文件）&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;将 .proto 文件移动到新位置&lt;/p&gt;
+&lt;p&gt;直接这么做的话会出错的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新建一个伪 .proto 文件，作用替代之前 .proto 文件，并在一次更新所有调用站点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;import public&lt;/code&gt; 将其转发到新位置。（导入包含 import public 语句的 proto 的任何人都可以传递地依赖 import public 依赖项）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// new.proto
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// All definitions are moved here
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// old.proto
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// This is the proto that all clients are importing.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;new.proto&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;other.proto&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// client.proto
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;old.proto&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// You use definitions from old.proto and new.proto, but not other.proto
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;搜索导入文件规则&#34;&gt;搜索导入文件规则&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;protocol compiler 使用 &lt;code&gt;-I/--proto_path&lt;/code&gt; 标志在协议编译器命令行指定的一组目录中搜索导入的文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;若没有指定，将会在调用编译器的目录中查找&lt;/p&gt;
+&lt;p&gt;通常将 &amp;ndash;proto_path 标志设置为项目的根目录，并对所有导入使用完全限定的名称&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;使用 proto2消息类型&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以将 proto2 的消息类型导入 proto3 中使用&lt;/li&gt;
+&lt;li&gt;可以将 proto3 的消息类型导入 proto2 中使用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;只是可以&lt;/code&gt;，&lt;strong&gt;使用的时候，还需要注意版本间的差异产生的问题&lt;/strong&gt;，比如：proto2 enums 不能直接在 proto3 语法中使用（如果导入的 proto2 消息使用它们的话是没有问题的）&lt;/p&gt;
+&lt;h4 id=&#34;嵌套类型nested-types&#34;&gt;嵌套类型（Nested Types）&lt;/h4&gt;
+&lt;p&gt;可以在其他消息类型中定义和使用消息类型，如下例：Result 是在 SearchResponse 中被定义的&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SearchResponse&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Result&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;title&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;snippets&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Result&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果想要在其父消息类型之外重用此消息类型，则：_Parent_._Type_:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SomeOtherMessage&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;SearchResponse.Result&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;至此，可以随心所欲的将信息做各种嵌套&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Outer&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;                  &lt;span class=&#34;c1&#34;&gt;// Level 0
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MiddleAA&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Level 1
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Inner&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;// Level 2
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;kt&#34;&gt;int64&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ival&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;booly&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MiddleBB&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Level 1
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Inner&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;// Level 2
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ival&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;booly&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;更新消息类型updating-a-message-type&#34;&gt;更新消息类型（Updating A Message Type）&lt;/h4&gt;
+&lt;p&gt;如果现在的消息不能再满足业务需要，在不破坏任何现有代码的情况下更新消息类型将非常容易。其规则如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;不要更改任何现有字段的字段编号&lt;/li&gt;
+&lt;li&gt;如果添加新字段，则任何由使用“旧”消息格式的代码序列化的消息仍可以由新生成的代码解析。您应该记住这些元素的默认值，以便新代码可以正确地与旧代码生成的消息交互。类似地，由新代码创建的消息也可以由旧代码解析：旧的二进制文件在解析时只会忽略新字段。有关详细信息，请参阅“未知字段”部分。&lt;/li&gt;
+&lt;li&gt;只要字段号不再在更新的消息类型中使用，就可以删除字段。您可以改为重命名该字段，可能添加前缀“obsolited_u”，或者保留字段编号，这样.proto的未来用户就不会意外地重用该编号。&lt;/li&gt;
+&lt;li&gt;int32、uint32、int64、uint64和bool都是兼容的—这意味着您可以将字段从这些类型之一更改为另一种类型，而不会破坏前后兼容性。如果从不适合于相应类型的线中解析一个数，则将获得与在C++中将该数转换为该类型的相同效果（例如，如果64位数字被读取为一个IT32，则它将被截断到32位）。&lt;/li&gt;
+&lt;li&gt;sint32和sint64彼此兼容，但与其他整数类型不兼容。&lt;/li&gt;
+&lt;li&gt;只要字节是有效的UTF-8，字符串和字节就兼容。&lt;/li&gt;
+&lt;li&gt;如果字节包含消息的编码版本，则嵌入消息与字节兼容。&lt;/li&gt;
+&lt;li&gt;fixed32与sfixed32兼容，fixed64与sfixed64兼容。&lt;/li&gt;
+&lt;li&gt;对于string、bytes和message字段，optional与repeated兼容。给定重复字段的序列化数据作为输入，如果该字段是基元类型字段，则希望该字段为可选的客户端将采用最后一个输入值；如果是消息类型字段，则会合并所有输入元素。注意，对于数值类型（包括bool和enum）来说，这通常是不安全的。数字类型的重复字段可以以压缩格式序列化，当需要可选字段时，将无法正确分析该格式。&lt;/li&gt;
+&lt;li&gt;enum 在 wire format 方面与int32、uint32、int64和uint64兼容（请注意，如果值不合适，它们将被截断）。但是，请注意，当消息被反序列化时，客户端代码可能会对它们进行不同的处理：例如，无法识别的proto3枚举类型将保留在消息中，但是当消息被反序列化时，如何表示这些类型取决于语言。Int字段总是保留它们的值。&lt;/li&gt;
+&lt;li&gt;将单个值更改为新值的成员是安全的，并且二进制兼容。 如果确保没有代码一次设置多个字段，那么将多个字段移动到新的字段中可能是安全的。 将任何字段移动到现有的字段中都是不安全的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;未知类型unknow-fields&#34;&gt;未知类型（Unknow Fields）&lt;/h4&gt;
+&lt;p&gt;未知字段是格式良好的协议缓冲区序列化数据，表示解析器不识别的字段。 例如，当旧二进制解析由新二进制发送的带有新字段的数据时，这些新字段将成为旧二进制中的未知字段。&lt;/p&gt;
+&lt;p&gt;最初，proto3消息在解析过程中总是丢弃未知字段，但在3.5版本中，重新引入了未知字段的保存来匹配 proto2行为。 在3.5及以后的版本中，解析期间保留未知字段，并将其包含在序列化输出中。&lt;/p&gt;
+&lt;h4 id=&#34;any&#34;&gt;Any&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;Any 允许将消息用作嵌入类型，且无需为其做 .proto 定义。
+
+一个 Any 以 bytes 呈现序列化的 message，且以一个 URL 作为全局唯一标识符。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果想使用 Any 类型，则需引入 &lt;code&gt;google/protobuf/any.proto&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;google/protobuf/any.proto&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ErrorStatus&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;google.protobuf.Any&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;details&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Any 类型可替换 proto2 的扩展&lt;/p&gt;
+&lt;h4 id=&#34;oneof&#34;&gt;Oneof&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;若有一个包含多个字段的消息，且最多同时设置一个字段，则可以使用 Oneof 的特性强制执行用于节省内存。
+
+其中一个字段类似于常规字段，只不过共享内存中的一个字段中的所有字段都是常规字段，而且最多可以同时设置一个字段。 设置其中的任何成员都会自动清除所有其他成员。 根据所选择的语言，可以使用特殊 case ()或 WhichOneof ()方法检查 oneof 中的哪个值被设置(如果有的话)。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SampleMessage&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;oneof&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_oneof&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;SubMessage&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sub_message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;oneof-的特点&#34;&gt;Oneof 的特点&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;设置 oneof 字段将自动清除 oneof 的其他所有成员。因此，即使设置了多个字段，则只有最后的字段的值具有效力&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;n&#34;&gt;SampleMessage&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message.set_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CHECK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message.has_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message.mutable_sub_message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;// Will clear name field.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CHECK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message.has_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;oneof 不能是 repeated 型&lt;/li&gt;
+&lt;li&gt;反射的 APIs 作用于 oneof 字段&lt;/li&gt;
+&lt;li&gt;如果将 oneof 字段设置为默认值（例如将 int32 oneof 字段设置为0），则将设置该 oneof 字段的 “case”，并在网络上序列化该值。&lt;/li&gt;
+&lt;li&gt;如果你使用 c + + ，确保你的代码不会导致内存崩溃。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 以下代码将崩溃。因为通过调用 set_name ()方法已经删除了 sub _ message
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SampleMessage&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SubMessage&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sub_message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message.mutable_sub_message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message.set_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;      &lt;span class=&#34;c1&#34;&gt;// Will delete sub_message
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sub_message&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;set_...&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;// Crashes here
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;同样在 c + + 中，如果您使用 Swap ()两条消息中的一条，每条消息将以另一条消息中的一条结束&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;n&#34;&gt;SampleMessage&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;msg1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg1.set_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SampleMessage&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;msg2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg2.mutable_sub_message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg1.swap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CHECK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg1.has_sub_message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CHECK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;msg2.has_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;map-类型maps&#34;&gt;map 类型（Maps）&lt;/h4&gt;
+&lt;p&gt;如果你想创建一个关联映射作为你数据定义的一部分，使用如下的格式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;n&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;map_field&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 如：
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;values&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;map&lt;code&gt;字段不能同时使用repeated&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;packages&#34;&gt;Packages&lt;/h4&gt;
+&lt;p&gt;定义proto的包名，包名可以避免对message 类型之间的名字冲突，同名的Message可以通过package进行区分。&lt;/p&gt;
+&lt;p&gt;在没有为特定语言定义&lt;code&gt;option xxx_package&lt;/code&gt;的时候，它还可以用来生成特定语言的包名，比如Java package, go package。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;定义服务defining-services&#34;&gt;定义服务（Defining Services）&lt;/h4&gt;
+&lt;p&gt;如果要在RPC（远程过程调用）系统中使用消息类型，可以在.proto文件中定义RPC服务接口，协议缓冲区编译器将以您选择的语言生成服务接口代码和存根。例如，如果要使用接受SearchRequest 并返回 SearchResponse 的方法定义 RPC 服务，可以在 .proto 文件中定义它，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;kd&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SearchService&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;rpc&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Search&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SearchRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;returns&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SearchResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;与协议缓冲区一起使用的最直接的RPC系统是gRPC：一个在Google开发的语言和平台无关的开源RPC系统。gRPC与协议缓冲区配合得特别好，允许您使用特殊的协议缓冲区编译器插件直接从.proto文件生成相关的RPC代码。&lt;/p&gt;
+&lt;p&gt;如果您不想使用gRPC，也可以在自己的RPC实现中使用协议缓冲区。你可以在Proto2语言指南中找到更多的信息。&lt;/p&gt;
+&lt;h4 id=&#34;json-mapping&#34;&gt;JSON Mapping&lt;/h4&gt;
+&lt;p&gt;Proto3 支持 JSON 的规范编码，使得系统之间更容易共享数据。&lt;/p&gt;
+&lt;p&gt;如果 json 编码的数据中缺少某个值，或者该值为 null，那么在解析为协议缓冲区时，该值将被解释为适当的默认值。&lt;/p&gt;
+&lt;p&gt;如果 json 编码的数据中缺少某个值，或者该值为 null，那么在解析为协议缓冲区时，该值将被解释为适当的默认值。 如果一个字段在协议缓冲区中具有默认值，为了节省空间，默认情况下 json 编码的数据中将省略该字段。&lt;/p&gt;
+&lt;h4 id=&#34;options&#34;&gt;Options&lt;/h4&gt;
+&lt;p&gt;option可以用在proto的scope中，或者message、enum、service的定义中。
+可以是Protobuf定义的option，或者自定义的option。&lt;/p&gt;
+&lt;p&gt;option的定义格式是&lt;code&gt;&amp;quot;option&amp;quot; optionName &amp;quot;=&amp;quot; constant &amp;quot;;&amp;quot;&lt;/code&gt;,比如:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;java_package&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;com.example.foo&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;一些Protobuf定义的option:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;java_package&lt;/li&gt;
+&lt;li&gt;java_multiple_files&lt;/li&gt;
+&lt;li&gt;java_outer_classname&lt;/li&gt;
+&lt;li&gt;optimize_for&lt;/li&gt;
+&lt;li&gt;cc_enable_arenas&lt;/li&gt;
+&lt;li&gt;objc_class_prefix&lt;/li&gt;
+&lt;li&gt;deprecated&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-protobuf&#34; data-lang=&#34;protobuf&#34;&gt;&lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.testgen_all&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.populate_all&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.benchgen_all&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;NidRepPackedNative&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;double&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Field1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.nullable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;packed&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;float&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Field2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.nullable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;packed&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Field3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gogoproto.nullable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;packed&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;参考&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/proto3&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Google Protocol Buffers - proto3 原文&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://colobu.com/2019/10/03/protobuf-ultimate-tutorial-in-go/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Protobuf 终极教程&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go 中的 etcd Clientv3 报错：undefined Resolver BuildOption</title>
+      <link>https://threeandtwo.github.io/posts/go%E4%B8%AD%E7%9A%84etcd-clientv3%E6%8A%A5%E9%94%99undefined-resolver-buildoption/</link>
+      <pubDate>Wed, 01 Jul 2020 00:01:30 +0000</pubDate>
+      
+      <guid>https://threeandtwo.github.io/posts/go%E4%B8%AD%E7%9A%84etcd-clientv3%E6%8A%A5%E9%94%99undefined-resolver-buildoption/</guid>
+      <description>&lt;h3 id=&#34;环境&#34;&gt;环境&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;go version go1.14.4 darwin/amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;报错原由&#34;&gt;报错原由&lt;/h3&gt;
+&lt;p&gt;在部署测试 go-mirco 中，出现了此错误&lt;/p&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/01/Nom7xf.png&#34;
+        alt=&#34;详细报错信息&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;因为 etcd/clientv3 与 grpc 的 v1.27.0 版本冲突了。只需将 grpc 的版本回退至 v1.26.0 即可。&lt;/p&gt;
+&lt;h3 id=&#34;解决方法&#34;&gt;解决方法&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改 go mod 的依赖为 v1.26.0&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;go mod edit -require=google.golang.org/grpc@v1.26.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;下载 v1.26.0 版本的 grpc&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;go get -u -x google.golang.org/grpc@v1.26.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;视情况要不要重新构建&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;go build
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;修复后的结果&#34;&gt;修复后的结果&lt;/h3&gt;
+&lt;p&gt;&lt;img  src=&#34;https://s1.ax1x.com/2020/07/01/NouCtA.png&#34;
+        alt=&#34;运行结果&#34;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;参考&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://segmentfault.com/q/1010000021762281/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;传送门&lt;/a&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

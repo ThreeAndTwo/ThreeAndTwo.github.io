@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Shell_字符串处理&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Shell_字符串处理" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Shell_字符串处理</h1><p class="article date">Saturday, February 15, 2020</p></section><article class="article markdown-body"><h3 id="一基本规则">一、基本规则</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">规则</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">${变量名#规则}</td>
+<td style="text-align:center">从变量<font color=red>开头</font>进行匹配，将符合<font color=red>最短</font>的数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量名##规则}</td>
+<td style="text-align:center">从变量<font color=red>开头</font>进行匹配，将符合<font color=red>最长</font>的数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量名%规则}</td>
+<td style="text-align:center">从变量<font color=red>末尾</font>开始匹配，将符合<font color=red>最短</font>的数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量名%%规则}</td>
+<td style="text-align:center">从变量<font color=red>末尾</font>开始匹配，将符合<font color=red>最长</font>的数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量名/旧字符串/新字符串}</td>
+<td style="text-align:center">字符串<font color=red>替换</font>，符合规则的<font color=red>第一个字符串替换成新的字符串</font></td>
+</tr>
+<tr>
+<td style="text-align:center">${变量名//旧字符串/新字符串}</td>
+<td style="text-align:center">字符串<font color=red>替换</font>，符合规则的<font color=red>全部字符串替换成新的字符串</font></td>
+</tr>
+</tbody>
+</table>
+<h4 id="例子">例子：</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">variable_1</span><span class="o">=</span><span class="s2">&#34;i love you,Do you love me&#34;</span>
+
+<span class="nv">var1</span><span class="o">=</span><span class="si">${</span><span class="nv">variable_1</span><span class="p">#ov</span><span class="si">}</span>      <span class="c1"># e you,Do you love me</span>
+<span class="nv">var2</span><span class="o">=</span><span class="si">${</span><span class="nv">variable_1</span><span class="p">##ov</span><span class="si">}</span>		 <span class="c1"># e me</span>
+
+<span class="nv">var3</span><span class="o">=</span><span class="si">${</span><span class="nv">variable_1</span><span class="p">%ov</span><span class="si">}</span>	     <span class="c1"># i love you,Do you l</span>
+<span class="nv">var4</span><span class="o">=</span><span class="si">${</span><span class="nv">variable_1</span><span class="p">%%ov</span><span class="si">}</span>		 <span class="c1"># i l</span>
+
+<span class="nv">var5</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="p">/bin/BIN</span><span class="si">}</span>	    <span class="c1"># 此处的 PATH 为系统的路径</span>
+<span class="nv">var6</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="p">//bin/BIN</span><span class="si">}</span>
+
+</code></pre></div><h3 id="二计算字符串长度">二、计算字符串长度</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">${#string}</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">expr length  &ldquo;$string&rdquo;</td>
+<td style="text-align:center">string有空格，则必须加双引号</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 方法一</span>
+<span class="nv">var1</span><span class="o">=</span><span class="s2">&#34;Hello World&#34;</span>
+<span class="nv">len</span><span class="o">=</span><span class="si">${#</span><span class="nv">var1</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="nv">$len</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 方法二</span>
+<span class="nv">var2</span><span class="o">=</span><span class="s2">&#34;111111111 111&#34;</span>
+<span class="nv">len</span><span class="o">=</span><span class="sb">`</span>expr length <span class="s2">&#34;</span><span class="nv">$var2</span><span class="s2">&#34;</span><span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$len</span>
+</code></pre></div><h3 id="三获取子串在字符串中的索引位置">三、获取子串在字符串中的索引位置</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">expr index &ldquo;$string&rdquo; $substring</td>
+<td style="text-align:center">使用 expr 获取字符串中的索引位置</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">string</span><span class="o">=</span><span class="s2">&#34;quickStart is a app&#34;</span>
+<span class="nv">strIndex</span><span class="o">=</span><span class="sb">`</span>expr index <span class="s2">&#34;</span><span class="nv">$string</span><span class="s2">&#34;</span> start<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$strIndex</span>  <span class="c1"># 7</span>
+
+<span class="nv">string</span><span class="o">=</span><span class="s2">&#34;quickStart is a app&#34;</span>
+<span class="nv">strIndex</span><span class="o">=</span><span class="sb">`</span>expr index <span class="s2">&#34;</span><span class="nv">$string</span><span class="s2">&#34;</span> Start<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$strIndex</span>  <span class="c1"># 6  大小写敏感</span>
+
+
+<span class="nv">strIndex</span><span class="o">=</span><span class="sb">`</span>expr index <span class="s2">&#34;</span><span class="nv">$string</span><span class="s2">&#34;</span> uniq<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$strIndex</span>  <span class="c1"># 1</span>
+</code></pre></div><blockquote>
+<p>小结：尽管说是子串，其实匹配的是，子串中字符在索引中的位置。可以简单理解成将子串拆分成字符，然后与原串比较，返回字符索引的最小值。  <font color=red>为什么说是最小值？</font></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 验证小结</span>
+
+<span class="nv">string</span><span class="o">=</span><span class="s2">&#34;I love you, Do you love me?&#34;</span>
+<span class="nv">substring</span><span class="o">=</span><span class="s2">&#34;me&#34;</span>
+<span class="nv">strIndex</span><span class="o">=</span><span class="sb">`</span>expr index <span class="s2">&#34;</span><span class="nv">$string</span><span class="s2">&#34;</span> <span class="nv">$substring</span><span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$strIndex</span>  
+
+<span class="c1"># 输出 6 而非 25</span>
+</code></pre></div><h3 id="四计算子串长度">四、计算子串长度</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">expr match &ldquo;$string&rdquo;  $substring</td>
+<td style="text-align:center">使用 expr 获取字符串中的索引位置</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">
+<span class="nv">var1</span><span class="o">=</span><span class="s2">&#34;quickStart is a app&#34;</span>
+<span class="nv">subLen</span><span class="o">=</span><span class="sb">`</span>expr match <span class="s2">&#34;</span><span class="nv">$var1</span><span class="s2">&#34;</span> app<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$subLen</span>  <span class="c1"># 0</span>
+
+<span class="nv">subLen</span><span class="o">=</span><span class="sb">`</span>expr match <span class="s2">&#34;</span><span class="nv">$var1</span><span class="s2">&#34;</span> quick<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$subLen</span>  <span class="c1"># 5</span>
+
+<span class="nv">subLen</span><span class="o">=</span><span class="sb">`</span>expr match <span class="s2">&#34;</span><span class="nv">$var1</span><span class="s2">&#34;</span> quick.*<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$subLen</span>  <span class="c1"># 19，下标从1开始</span>
+</code></pre></div><blockquote>
+<p>小结：必须是从字符串开头进行匹配才能计算子串长度，否则均为0。可以使用正则进行匹配</p>
+</blockquote>
+<h3 id="五抽取字符串中的子串">五、抽取字符串中的子串</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">${string:position}</td>
+<td style="text-align:center">从 string 中的 position 开始</td>
+</tr>
+<tr>
+<td style="text-align:center">${string:position:length}</td>
+<td style="text-align:center">从 position开始，匹配长度为 length</td>
+</tr>
+<tr>
+<td style="text-align:center">${string: -position} / ${string:(position)}</td>
+<td style="text-align:center">从右边开始匹配      <font color=red>注意&quot;:&ldquo;与“-”中间有个空格</font></td>
+</tr>
+<tr>
+<td style="text-align:center">expr substr $string $position $length</td>
+<td style="text-align:center">从 position 开始，匹配长度为 length // 从左边开始匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">var1</span><span class="o">=</span><span class="s2">&#34;kafka hadoop yarn mapreduce&#34;</span>
+<span class="nv">subStr1</span><span class="o">=</span><span class="si">${</span><span class="nv">var1</span><span class="p">:</span><span class="nv">10</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="nv">$subStr1</span>			<span class="c1"># op yarn mapreduce, 下标从0开始</span>
+
+<span class="nv">subStr2</span><span class="o">=</span><span class="si">${</span><span class="nv">var1</span><span class="p">:</span><span class="nv">10</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="nv">$subStr2</span>			<span class="c1"># op ya</span>
+
+<span class="nv">subStr3</span><span class="o">=</span><span class="si">${</span><span class="nv">var1</span><span class="p">: -5</span><span class="si">}</span>	<span class="c1"># 记住中间有个空格</span>
+<span class="nb">echo</span> <span class="nv">$subStr3</span>				<span class="c1"># educe</span>
+
+<span class="nv">subStr4</span><span class="o">=</span><span class="si">${</span><span class="nv">var1</span><span class="p">: (-5):</span><span class="nv">2</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="nv">$subStr4</span>				<span class="c1"># ed</span>
+
+<span class="nv">subStr5</span><span class="o">=</span><span class="sb">`</span>expr substr <span class="s2">&#34;</span><span class="nv">$var1</span><span class="s2">&#34;</span> <span class="m">10</span> 3<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$subStr5</span>				<span class="c1"># oop</span>
+</code></pre></div><blockquote>
+<p>总结：<font color=red>使用 expr 时，索引下标从1开始，使用${string: positon} 时下标从0开始</font></p>
+</blockquote>
+</article><section class="article labels"><a class="category" href=/categories/shell/>shell</a><a class="tag" href=/tags/shell/>shell</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/shell_%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/"><span class="iconfont icon-article"></span>Shell_命令使用</a></p><p><a class="link" href="/posts/github%E4%B8%8A%E6%90%AD%E5%BB%BA%E7%9A%84hexo%E5%8D%9A%E5%AE%A2%E8%A2%ABgoogle%E6%94%B6%E5%BD%95%E7%9A%84%E6%AD%A5%E9%AA%A4/"><span class="iconfont icon-article"></span>Github 上搭建的 hexo 博客被 Google 收录的步骤</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

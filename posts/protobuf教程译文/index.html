@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Protobuf教程（译文）&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Protobuf教程（译文）" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Protobuf教程（译文）</h1><p class="article date">Thursday, July 2, 2020</p></section><article class="article markdown-body"><blockquote>
+<p>知其然知其所以然！</p>
+</blockquote>
+<h3 id="protobuf-的发展历史">Protobuf 的发展历史</h3>
+<p><img src="https://s1.ax1x.com/2020/06/30/NoZWQO.png" alt="NoZWQO.png" style="zoom:80%;" /></p>
+<h3 id="序列化的发展历史">序列化的发展历史</h3>
+<p><img  src="https://s1.ax1x.com/2020/07/01/NoMRSI.png"
+        alt="NoMRSI.png"/></p>
+<p><a href="https://github.com/smallnest/gosercomp"target="_blank" rel="noopener noreferrer">gosercomp</a>
+ 对比了各种 go 序列化库，点击可以详细了解。</p>
+<h3 id="proto3-教程">proto3 教程</h3>
+<h4 id="proto3-的主要新功能">proto3 的主要新功能</h4>
+<p><a href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.0.0"target="_blank" rel="noopener noreferrer">官方 proto3 更新日志</a>
+</p>
+<ol>
+<li>删除原始值字段的出现逻辑，删除必填字段，并删除默认值。</li>
+<li>移除 unknow 字段</li>
+<li>移除扩展，用 Any 替代</li>
+<li>修复未知枚举值的语义</li>
+<li>增加了 maps 的类型（后移植到 proto2）</li>
+<li>增加了一组标准类型、动态数据等（后移植到 proto2）</li>
+<li>可以使用 JSON 编码代替二进制 proto 编码</li>
+</ol>
+<h4 id="定义消息类型defining-a-message-type">定义消息类型（Defining A Message Type）</h4>
+<h5 id="一个简单的例子">一个简单的例子</h5>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span>							<span class="c1">// 指定 protobuf 的版本，若不指定，则默认为 proto2，且必须是第一个非空非注释行
+</span><span class="c1"></span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">SearchRequest</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">query</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">page_number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">result_per_page</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>定义名为 SearchRequest 的 message 类型：</p>
+<p>在示例中，都是 scalar type，包含两个整数（result_per_page, page_number）和一个字符串类型（query）。<code>字段也可以指定为组合类型，比如：枚举和其他消息类型</code>。</p>
+<p><strong>字段编号分配的规则</strong></p>
+<ul>
+<li>每个字段都有一个唯一的编号（用于以消息二进制格式标志字段，在确认使用消息类型后<strong>不应更改</strong>）</li>
+<li>1 - 15 编号，只需一个字节进行编码，而 16 - 2047 的字段编号采用两个字节。因此，<code>常用的消息元素应分配 1- 15,同时需要为将来可能添加的频繁出现的元素预留空间</code></li>
+<li>编号分配的最小值为1，最大为2^29 - 1（536,870,911）。<code>禁用：19000 - 19999</code>，因为其已被用于 Protocol Buffers 的实现。</li>
+</ul>
+<h5 id="指定字段的规则">指定字段的规则</h5>
+<p>消息字段可以有两种选择（前提：都要确保格式良好）：</p>
+<ul>
+<li>singular：0 &lt;= 字段 &lt;= 1，为 proto3 的默认字段规则</li>
+<li>repeated：字段 &gt;= 0，重复值的顺序将被保留</li>
+</ul>
+<blockquote>
+<p>在 proto3 中，<code>scalar 数值</code>类型的重复字段默认使用 <code>packed </code>编码</p>
+</blockquote>
+<p>如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">Test4</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="kt">int32</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">[</span><span class="k">packed</span><span class="o">=</span><span class="kc">true</span><span class="p">];</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h5 id="添加更多消息类型">添加更多消息类型</h5>
+<pre><code>在 .proto 文件中，可以定义多个消息类型。如：
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SearchRequest</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">query</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">page_number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">result_per_page</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">SearchResponse</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span> <span class="o">...</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h5 id="注释规则">注释规则</h5>
+<p>给 .proto 中添加注释时，多行使用 / * &hellip; * / 语法，单行使用 // 语法。如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="cm">/* SearchRequest represents a search query, with pagination options to
+</span><span class="cm"> * indicate which results to include in the response. */</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">SearchRequest</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">query</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">page_number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// Which page number do we want?
+</span><span class="c1"></span>  <span class="kt">int32</span> <span class="n">result_per_page</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>  <span class="c1">// Number of results to return per page.
+</span><span class="c1"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h5 id="预留字段reserved-fields">预留字段（Reserved Fields）</h5>
+<pre><code>若一个消息类型作废了，会想当然的将其注释掉或者删除掉该字段，当其他开发者对该类型的字段重新编号（或更新编号时）。可能会导致严重的问题。因此不能直接保留干掉！通用解法是指定保留已删除字段的字段编号（/ 或 名称，这有可能导致产生 JSON 序列化的问题），在此基础上若有开发者使用该字段的标识符，则 protobuf 编译器会发出警告。示例：
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">Foo</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="n">reserved</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">9</span> <span class="k">to</span> <span class="mi">11</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="n">reserved</span> <span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="s">&#34;bar&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p><font color="#dd0000">注意：不能在同一个保留语句中混合字段名和字段编号。</font></p>
+<h5 id="proto-文件生成了什么">.proto 文件生成了什么？</h5>
+<ol>
+<li>当 protocol buffer compiler 编译 .proto 时（.proto 文件中已经定义了工作的消息类型，获取以及设置字段值），然后从输入流解析消息，将消息序列化到输出流</li>
+<li>Go 语言中，protocol buffer compiler 会生成 .pb.go 的文件，文件中的每个消息类型都有一个类型</li>
+</ol>
+<p><a href="https://developers.google.com/protocol-buffers/docs/reference/overview"target="_blank" rel="noopener noreferrer">Protocol Buffers API Reference 规定了更多的细节</a>
+</p>
+<h4 id="标量值类型scalar-value-types">标量值类型（Scalar Value Types）</h4>
+<h5 id="proto-中的类型与各语言的对应表">.proto 中的类型与各语言的对应表：</h5>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">.proto</th>
+<th style="text-align:center">Go</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">float64</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">float32</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">int32</td>
+<td style="text-align:center">int32</td>
+<td style="text-align:center">使用可变长度编码。 对负数进行编码效率不高——如果字段可能具有负值，则使用 sint32</td>
+</tr>
+<tr>
+<td style="text-align:center">int64</td>
+<td style="text-align:center">int64</td>
+<td style="text-align:center">使用可变长度编码。 对负数进行编码效率不高——如果字段可能具有负值，则使用 sint64</td>
+</tr>
+<tr>
+<td style="text-align:center">uint32</td>
+<td style="text-align:center">uint32</td>
+<td style="text-align:center">使用可变长度编码</td>
+</tr>
+<tr>
+<td style="text-align:center">uint64</td>
+<td style="text-align:center">uint64</td>
+<td style="text-align:center">使用可变长度编码</td>
+</tr>
+<tr>
+<td style="text-align:center">sint32</td>
+<td style="text-align:center">int32</td>
+<td style="text-align:center">使用可变长度编码。带符号的整型值。这比常规的 int32 更有效地编码负数</td>
+</tr>
+<tr>
+<td style="text-align:center">sint64</td>
+<td style="text-align:center">int64</td>
+<td style="text-align:center">使用可变长度编码。带符号的整型值。这比常规的 int64 更有效地对负数进行编码</td>
+</tr>
+<tr>
+<td style="text-align:center">fixed32</td>
+<td style="text-align:center">uint32</td>
+<td style="text-align:center">总是 4 个字节，如果值大于 2^28，则比 uint32 更有效</td>
+</tr>
+<tr>
+<td style="text-align:center">fixed64</td>
+<td style="text-align:center">uint64</td>
+<td style="text-align:center">总是 8 个字节，如果值大于 2^56，则比 uint64 更有效</td>
+</tr>
+<tr>
+<td style="text-align:center">sfixed32</td>
+<td style="text-align:center">int32</td>
+<td style="text-align:center">总是 4 个字节</td>
+</tr>
+<tr>
+<td style="text-align:center">sfixed64</td>
+<td style="text-align:center">int64</td>
+<td style="text-align:center">总是 8 个字节</td>
+</tr>
+<tr>
+<td style="text-align:center">bool</td>
+<td style="text-align:center">bool</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">string</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">字符串必须始终包含 UTF-8编码的或7位 ASCII 文本，且不能长于2^32</td>
+</tr>
+<tr>
+<td style="text-align:center">bytes</td>
+<td style="text-align:center">[]byte</td>
+<td style="text-align:center">可以包含任意字节序列，且长度不超过 2^32</td>
+</tr>
+</tbody>
+</table>
+<h4 id="默认值default-values">默认值（Default Values）</h4>
+<ul>
+<li>
+<p>字符串（string）：默认值为空字符串</p>
+</li>
+<li>
+<p>字节（bytes）：默认值为孔子杰</p>
+</li>
+<li>
+<p>布尔（bools）：默认值为 false</p>
+</li>
+<li>
+<p>数值类型（numeric）：默认值为 0</p>
+</li>
+<li>
+<p>枚举类型（enums）：要求第一个枚举类型的值必须为 0</p>
+</li>
+<li>
+<p>message 字段：如果未指定，则其默认会随着语言的变更而不同</p>
+<p>repeated 字段的默认值为空</p>
+</li>
+</ul>
+<p><font color="#dd0000">注意：</font></p>
+<ol>
+<li>对于 scalar 的消息字段，一般消息被解析，则会产生二义性。即无法判断该字段是显示设置为默认值还是压根没有设置。因此定义消息类型的时候，需要明确这一点。</li>
+<li>若 scalar 消息字段设置为默认值，则该值将不会在序列化。（Also note that if a scalar message field <strong>is</strong> set to its default, the value will not be serialized on the wire.）（ps: 其实不太理解 on the wire 中指代的过程。有大佬知道的话，还望解惑）</li>
+</ol>
+<h4 id="枚举enumerations">枚举（Enumerations）</h4>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SearchRequest</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">query</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">page_number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">int32</span> <span class="n">result_per_page</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kd">enum</span> <span class="n">Corpus</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="n">UNIVERSAL</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>			<span class="c1">// 第一个值必须是 0
+</span><span class="c1"></span>    <span class="n">WEB</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">IMAGES</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">LOCAL</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">NEWS</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">PRODUCTS</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">VIDEO</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="n">Corpus</span> <span class="n">corpus</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p><code>注意</code></p>
+<ol>
+<li>必须有一个零值，这样我们就可以将0作为一个数值</li>
+<li>0 值必须是第一个元素，其中第一个枚举总是默认值</li>
+</ol>
+<h5 id="枚举类型如何起别名">枚举类型如何起别名？</h5>
+<ol>
+<li>将 allow_alias 设置为 true</li>
+<li>将相同的值分配给不同的枚举常量</li>
+</ol>
+<p>除此之外，起别名是，编译器会发生错误消息</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">MyMessage1</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kd">enum</span> <span class="n">EnumAllowingAlias</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="k">option</span> <span class="n">allow_alias</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">STARTED</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">MyMessage2</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kd">enum</span> <span class="n">EnumNotAllowingAlias</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">STARTED</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="c1">// RUNNING = 1;  // Uncommenting this line will cause a compile error inside Google and a warning message outside.
+</span><span class="c1"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p><font color="#dd0000">注意事项：</font></p>
+<ul>
+<li>枚举数常数必须在32位整数的范围内</li>
+<li>不推荐使用：因为使用的是 varint encoded，且负值效率低</li>
+<li>枚举数可能受到语言的限制</li>
+<li>在反序列化过程中，无法识别的枚举值将被保留在消息中</li>
+</ul>
+<h5 id="保留值reserved-values">保留值（Reserved Values）</h5>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">enum</span> <span class="n">Foo</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="n">reserved</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">9</span> <span class="k">to</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">40</span> <span class="k">to</span> <span class="k">max</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="n">reserved</span> <span class="s">&#34;FOO&#34;</span><span class="p">,</span> <span class="s">&#34;BAR&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h4 id="使用其他消息类型using-other-message-types">使用其他消息类型（Using Other Message Types）</h4>
+<p>可以使用其他消息类型作为字段类型。</p>
+<p>例：声明 Result 的 message，然后在 SearchResponse 中指定 Result 类型的字段</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SearchResponse</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">Result</span> <span class="n">results</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">Result</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">url</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">title</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="kt">string</span> <span class="n">snippets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h5 id="导入定义">导入定义</h5>
+<p>导入定义时有两种情况</p>
+<p><strong>第一种</strong></p>
+<p>以上例为准，若 Result 和 SearchResponse 在相同的文件中，则直接引用即可</p>
+<p><strong>第二种</strong></p>
+<p>若在不同的文件中，则需要导入原始 .proto 文件，因此可以在 .proto 文件的顶部添加一个 import 语句</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="k">import</span> <span class="s">&#34;myproject/other_protos.proto&#34;</span><span class="p">;</span><span class="err">
+</span></code></pre></div><p><strong>更新定义的少见情形（移动 .proto 文件）</strong></p>
+<ol>
+<li>
+<p>将 .proto 文件移动到新位置</p>
+<p>直接这么做的话会出错的</p>
+</li>
+<li>
+<p>新建一个伪 .proto 文件，作用替代之前 .proto 文件，并在一次更新所有调用站点。</p>
+</li>
+<li>
+<p>使用 <code>import public</code> 将其转发到新位置。（导入包含 import public 语句的 proto 的任何人都可以传递地依赖 import public 依赖项）</p>
+</li>
+</ol>
+<p>例如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="c1">// new.proto
+</span><span class="c1">// All definitions are moved here
+</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="c1">// old.proto
+</span><span class="c1">// This is the proto that all clients are importing.
+</span><span class="c1"></span><span class="k">import</span> <span class="n">public</span> <span class="s">&#34;new.proto&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="k">import</span> <span class="s">&#34;other.proto&#34;</span><span class="p">;</span><span class="err">
+</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="c1">// client.proto
+</span><span class="c1"></span><span class="k">import</span> <span class="s">&#34;old.proto&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="c1">// You use definitions from old.proto and new.proto, but not other.proto
+</span></code></pre></div><h5 id="搜索导入文件规则">搜索导入文件规则</h5>
+<ol>
+<li>
+<p>protocol compiler 使用 <code>-I/--proto_path</code> 标志在协议编译器命令行指定的一组目录中搜索导入的文件</p>
+</li>
+<li>
+<p>若没有指定，将会在调用编译器的目录中查找</p>
+<p>通常将 &ndash;proto_path 标志设置为项目的根目录，并对所有导入使用完全限定的名称</p>
+</li>
+</ol>
+<p><strong>使用 proto2消息类型</strong></p>
+<ol>
+<li>可以将 proto2 的消息类型导入 proto3 中使用</li>
+<li>可以将 proto3 的消息类型导入 proto2 中使用</li>
+</ol>
+<p><code>只是可以</code>，<strong>使用的时候，还需要注意版本间的差异产生的问题</strong>，比如：proto2 enums 不能直接在 proto3 语法中使用（如果导入的 proto2 消息使用它们的话是没有问题的）</p>
+<h4 id="嵌套类型nested-types">嵌套类型（Nested Types）</h4>
+<p>可以在其他消息类型中定义和使用消息类型，如下例：Result 是在 SearchResponse 中被定义的</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SearchResponse</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kd">message</span> <span class="nc">Result</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="kt">string</span> <span class="n">url</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="kt">string</span> <span class="n">title</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="k">repeated</span> <span class="kt">string</span> <span class="n">snippets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">Result</span> <span class="n">results</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>如果想要在其父消息类型之外重用此消息类型，则：_Parent_._Type_:</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SomeOtherMessage</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="n">SearchResponse.Result</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>至此，可以随心所欲的将信息做各种嵌套</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">Outer</span> <span class="p">{</span>                  <span class="c1">// Level 0
+</span><span class="c1"></span>  <span class="kd">message</span> <span class="nc">MiddleAA</span> <span class="p">{</span>  <span class="c1">// Level 1
+</span><span class="c1"></span>    <span class="kd">message</span> <span class="nc">Inner</span> <span class="p">{</span>   <span class="c1">// Level 2
+</span><span class="c1"></span>      <span class="kt">int64</span> <span class="n">ival</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>      <span class="kt">bool</span>  <span class="n">booly</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="kd">message</span> <span class="nc">MiddleBB</span> <span class="p">{</span>  <span class="c1">// Level 1
+</span><span class="c1"></span>    <span class="kd">message</span> <span class="nc">Inner</span> <span class="p">{</span>   <span class="c1">// Level 2
+</span><span class="c1"></span>      <span class="kt">int32</span> <span class="n">ival</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>      <span class="kt">bool</span>  <span class="n">booly</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h4 id="更新消息类型updating-a-message-type">更新消息类型（Updating A Message Type）</h4>
+<p>如果现在的消息不能再满足业务需要，在不破坏任何现有代码的情况下更新消息类型将非常容易。其规则如下：</p>
+<ol>
+<li>不要更改任何现有字段的字段编号</li>
+<li>如果添加新字段，则任何由使用“旧”消息格式的代码序列化的消息仍可以由新生成的代码解析。您应该记住这些元素的默认值，以便新代码可以正确地与旧代码生成的消息交互。类似地，由新代码创建的消息也可以由旧代码解析：旧的二进制文件在解析时只会忽略新字段。有关详细信息，请参阅“未知字段”部分。</li>
+<li>只要字段号不再在更新的消息类型中使用，就可以删除字段。您可以改为重命名该字段，可能添加前缀“obsolited_u”，或者保留字段编号，这样.proto的未来用户就不会意外地重用该编号。</li>
+<li>int32、uint32、int64、uint64和bool都是兼容的—这意味着您可以将字段从这些类型之一更改为另一种类型，而不会破坏前后兼容性。如果从不适合于相应类型的线中解析一个数，则将获得与在C++中将该数转换为该类型的相同效果（例如，如果64位数字被读取为一个IT32，则它将被截断到32位）。</li>
+<li>sint32和sint64彼此兼容，但与其他整数类型不兼容。</li>
+<li>只要字节是有效的UTF-8，字符串和字节就兼容。</li>
+<li>如果字节包含消息的编码版本，则嵌入消息与字节兼容。</li>
+<li>fixed32与sfixed32兼容，fixed64与sfixed64兼容。</li>
+<li>对于string、bytes和message字段，optional与repeated兼容。给定重复字段的序列化数据作为输入，如果该字段是基元类型字段，则希望该字段为可选的客户端将采用最后一个输入值；如果是消息类型字段，则会合并所有输入元素。注意，对于数值类型（包括bool和enum）来说，这通常是不安全的。数字类型的重复字段可以以压缩格式序列化，当需要可选字段时，将无法正确分析该格式。</li>
+<li>enum 在 wire format 方面与int32、uint32、int64和uint64兼容（请注意，如果值不合适，它们将被截断）。但是，请注意，当消息被反序列化时，客户端代码可能会对它们进行不同的处理：例如，无法识别的proto3枚举类型将保留在消息中，但是当消息被反序列化时，如何表示这些类型取决于语言。Int字段总是保留它们的值。</li>
+<li>将单个值更改为新值的成员是安全的，并且二进制兼容。 如果确保没有代码一次设置多个字段，那么将多个字段移动到新的字段中可能是安全的。 将任何字段移动到现有的字段中都是不安全的</li>
+</ol>
+<h4 id="未知类型unknow-fields">未知类型（Unknow Fields）</h4>
+<p>未知字段是格式良好的协议缓冲区序列化数据，表示解析器不识别的字段。 例如，当旧二进制解析由新二进制发送的带有新字段的数据时，这些新字段将成为旧二进制中的未知字段。</p>
+<p>最初，proto3消息在解析过程中总是丢弃未知字段，但在3.5版本中，重新引入了未知字段的保存来匹配 proto2行为。 在3.5及以后的版本中，解析期间保留未知字段，并将其包含在序列化输出中。</p>
+<h4 id="any">Any</h4>
+<pre><code>Any 允许将消息用作嵌入类型，且无需为其做 .proto 定义。
+
+一个 Any 以 bytes 呈现序列化的 message，且以一个 URL 作为全局唯一标识符。
+</code></pre>
+<p>如果想使用 Any 类型，则需引入 <code>google/protobuf/any.proto</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="k">import</span> <span class="s">&#34;google/protobuf/any.proto&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">ErrorStatus</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="kd">message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">google.protobuf.Any</span> <span class="n">details</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>Any 类型可替换 proto2 的扩展</p>
+<h4 id="oneof">Oneof</h4>
+<pre><code>若有一个包含多个字段的消息，且最多同时设置一个字段，则可以使用 Oneof 的特性强制执行用于节省内存。
+
+其中一个字段类似于常规字段，只不过共享内存中的一个字段中的所有字段都是常规字段，而且最多可以同时设置一个字段。 设置其中的任何成员都会自动清除所有其他成员。 根据所选择的语言，可以使用特殊 case ()或 WhichOneof ()方法检查 oneof 中的哪个值被设置(如果有的话)。
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">message</span> <span class="nc">SampleMessage</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">oneof</span> <span class="n">test_oneof</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">SubMessage</span> <span class="n">sub_message</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><h5 id="oneof-的特点">Oneof 的特点</h5>
+<ol>
+<li>设置 oneof 字段将自动清除 oneof 的其他所有成员。因此，即使设置了多个字段，则只有最后的字段的值具有效力</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="n">SampleMessage</span> <span class="n">message</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="n">message.set_name</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">);</span><span class="err">
+</span><span class="err"></span><span class="n">CHECK</span><span class="p">(</span><span class="n">message.has_name</span><span class="p">());</span><span class="err">
+</span><span class="err"></span><span class="n">message.mutable_sub_message</span><span class="p">();</span>   <span class="c1">// Will clear name field.
+</span><span class="c1"></span><span class="n">CHECK</span><span class="p">(</span><span class="err">!</span><span class="n">message.has_name</span><span class="p">());</span><span class="err">
+</span></code></pre></div><ol start="2">
+<li>oneof 不能是 repeated 型</li>
+<li>反射的 APIs 作用于 oneof 字段</li>
+<li>如果将 oneof 字段设置为默认值（例如将 int32 oneof 字段设置为0），则将设置该 oneof 字段的 “case”，并在网络上序列化该值。</li>
+<li>如果你使用 c + + ，确保你的代码不会导致内存崩溃。</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="c1">// 以下代码将崩溃。因为通过调用 set_name ()方法已经删除了 sub _ message
+</span><span class="c1"></span><span class="n">SampleMessage</span> <span class="n">message</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="n">SubMessage</span><span class="err">*</span> <span class="n">sub_message</span> <span class="o">=</span> <span class="n">message.mutable_sub_message</span><span class="p">();</span><span class="err">
+</span><span class="err"></span><span class="n">message.set_name</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">);</span>      <span class="c1">// Will delete sub_message
+</span><span class="c1"></span><span class="n">sub_message</span><span class="o">-</span><span class="p">&gt;</span><span class="n">set_...</span>            <span class="c1">// Crashes here
+</span></code></pre></div><ol start="6">
+<li>同样在 c + + 中，如果您使用 Swap ()两条消息中的一条，每条消息将以另一条消息中的一条结束</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="n">SampleMessage</span> <span class="n">msg1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="n">msg1.set_name</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">);</span><span class="err">
+</span><span class="err"></span><span class="n">SampleMessage</span> <span class="n">msg2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="n">msg2.mutable_sub_message</span><span class="p">();</span><span class="err">
+</span><span class="err"></span><span class="n">msg1.swap</span><span class="p">(</span><span class="err">&amp;</span><span class="n">msg2</span><span class="p">);</span><span class="err">
+</span><span class="err"></span><span class="n">CHECK</span><span class="p">(</span><span class="n">msg1.has_sub_message</span><span class="p">());</span><span class="err">
+</span><span class="err"></span><span class="n">CHECK</span><span class="p">(</span><span class="n">msg2.has_name</span><span class="p">());</span><span class="err">
+</span></code></pre></div><h4 id="map-类型maps">map 类型（Maps）</h4>
+<p>如果你想创建一个关联映射作为你数据定义的一部分，使用如下的格式：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="n">map</span><span class="p">&lt;</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">&gt;</span> <span class="n">map_field</span> <span class="o">=</span> <span class="n">N</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="c1">// 如：
+</span><span class="c1"></span><span class="n">map</span><span class="p">&lt;</span><span class="kt">int64</span><span class="p">,</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></code></pre></div><p>map<code>字段不能同时使用repeated</code></p>
+<h4 id="packages">Packages</h4>
+<p>定义proto的包名，包名可以避免对message 类型之间的名字冲突，同名的Message可以通过package进行区分。</p>
+<p>在没有为特定语言定义<code>option xxx_package</code>的时候，它还可以用来生成特定语言的包名，比如Java package, go package。</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kn">package</span> <span class="nn">foo</span><span class="o">.</span><span class="n">bar</span><span class="p">;</span><span class="err">
+</span></code></pre></div><h4 id="定义服务defining-services">定义服务（Defining Services）</h4>
+<p>如果要在RPC（远程过程调用）系统中使用消息类型，可以在.proto文件中定义RPC服务接口，协议缓冲区编译器将以您选择的语言生成服务接口代码和存根。例如，如果要使用接受SearchRequest 并返回 SearchResponse 的方法定义 RPC 服务，可以在 .proto 文件中定义它，如下所示：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="kd">service</span> <span class="n">SearchService</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">Search</span><span class="p">(</span><span class="n">SearchRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">SearchResponse</span><span class="p">);</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>与协议缓冲区一起使用的最直接的RPC系统是gRPC：一个在Google开发的语言和平台无关的开源RPC系统。gRPC与协议缓冲区配合得特别好，允许您使用特殊的协议缓冲区编译器插件直接从.proto文件生成相关的RPC代码。</p>
+<p>如果您不想使用gRPC，也可以在自己的RPC实现中使用协议缓冲区。你可以在Proto2语言指南中找到更多的信息。</p>
+<h4 id="json-mapping">JSON Mapping</h4>
+<p>Proto3 支持 JSON 的规范编码，使得系统之间更容易共享数据。</p>
+<p>如果 json 编码的数据中缺少某个值，或者该值为 null，那么在解析为协议缓冲区时，该值将被解释为适当的默认值。</p>
+<p>如果 json 编码的数据中缺少某个值，或者该值为 null，那么在解析为协议缓冲区时，该值将被解释为适当的默认值。 如果一个字段在协议缓冲区中具有默认值，为了节省空间，默认情况下 json 编码的数据中将省略该字段。</p>
+<h4 id="options">Options</h4>
+<p>option可以用在proto的scope中，或者message、enum、service的定义中。
+可以是Protobuf定义的option，或者自定义的option。</p>
+<p>option的定义格式是<code>&quot;option&quot; optionName &quot;=&quot; constant &quot;;&quot;</code>,比如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="k">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">&#34;com.example.foo&#34;</span><span class="p">;</span><span class="err">
+</span></code></pre></div><p>一些Protobuf定义的option:</p>
+<ul>
+<li>java_package</li>
+<li>java_multiple_files</li>
+<li>java_outer_classname</li>
+<li>optimize_for</li>
+<li>cc_enable_arenas</li>
+<li>objc_class_prefix</li>
+<li>deprecated</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="k">option</span> <span class="p">(</span><span class="n">gogoproto.testgen_all</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="k">option</span> <span class="p">(</span><span class="n">gogoproto.populate_all</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="k">option</span> <span class="p">(</span><span class="n">gogoproto.benchgen_all</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">NidRepPackedNative</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>	<span class="k">repeated</span> <span class="kt">double</span> <span class="n">Field1</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[(</span><span class="n">gogoproto.nullable</span><span class="p">)</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="k">packed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span><span class="err">
+</span><span class="err"></span>	<span class="k">repeated</span> <span class="kt">float</span> <span class="n">Field2</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[(</span><span class="n">gogoproto.nullable</span><span class="p">)</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="k">packed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span><span class="err">
+</span><span class="err"></span>	<span class="k">repeated</span> <span class="kt">int32</span> <span class="n">Field3</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[(</span><span class="n">gogoproto.nullable</span><span class="p">)</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="k">packed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p><code>参考</code></p>
+<ol>
+<li><a href="https://developers.google.com/protocol-buffers/docs/proto3"target="_blank" rel="noopener noreferrer">Google Protocol Buffers - proto3 原文</a>
+</li>
+<li><a href="https://colobu.com/2019/10/03/protobuf-ultimate-tutorial-in-go/"target="_blank" rel="noopener noreferrer">Protobuf 终极教程</a>
+</li>
+</ol>
+</article><section class="article labels"><a class="category" href=/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/>微服务</a><a class="tag" href=/tags/protobuf/>Protobuf</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/go-runtime%E7%90%86%E8%A7%A3/"><span class="iconfont icon-article"></span>Go Runtime理解</a></p><p><a class="link" href="/posts/go%E4%B8%AD%E7%9A%84etcd-clientv3%E6%8A%A5%E9%94%99undefined-resolver-buildoption/"><span class="iconfont icon-article"></span>Go 中的 etcd Clientv3 报错：undefined Resolver BuildOption</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

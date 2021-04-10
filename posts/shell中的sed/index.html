@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Shell中的sed&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Shell中的sed" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Shell中的sed</h1><p class="article date">Thursday, April 30, 2020</p></section><article class="article markdown-body"><blockquote>
+<p>sed (Stream Editor)，流编辑器。对标准输出或文件逐行进行处理</p>
+</blockquote>
+<h3 id="语法格式">语法格式</h3>
+<ul>
+<li>形式一：stdout | sed [option] &ldquo;pattern command&rdquo;</li>
+<li>形式二：sed [option] &ldquo;pattern command&rdquo; file</li>
+</ul>
+<h3 id="sed-的选项">sed 的选项</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-n</td>
+<td style="text-align:center">只打印模式匹配行</td>
+<td style="text-align:center">sed -n &lsquo;/python/p&rsquo; sed.txt</td>
+</tr>
+<tr>
+<td style="text-align:center">-e [edit]</td>
+<td style="text-align:center">直接在命令行进行 sed 编辑，默认选项</td>
+<td style="text-align:center">sed -n -e &lsquo;/python/p&rsquo; -e &lsquo;/PYTHON/p&rsquo; sed.txt</td>
+</tr>
+<tr>
+<td style="text-align:center">-f    [file]</td>
+<td style="text-align:center">编辑动作保存在文件中，指定文件执行</td>
+<td style="text-align:center">sed -n -f edit.sed sed.txt                                                                                                                                            # edit.se 保存的事匹配规则，换行可添加新规则</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td style="text-align:center">直接扩展正则表达式</td>
+<td style="text-align:center">sed -n -r &lsquo;python|PYTHON/p&rsquo; sed.txt</td>
+</tr>
+<tr>
+<td style="text-align:center">-i</td>
+<td style="text-align:center">直接修改文件内容</td>
+<td style="text-align:center">sed -i &rsquo;s/love/like/g' sed.txt  # 切不可加 -n 。否则源文件直接被清空                                                     sed -n -i &rsquo;s/love/like/g' sed.txt</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://man.linuxde.net/docs/shell_regex.html"target="_blank" rel="noopener noreferrer">关于 shell 中的正则补充</a>
+</p>
+<h3 id="sed-中的-pattern">sed 中的 pattern</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">匹配模式</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">10 command</td>
+<td style="text-align:center">匹配第10行</td>
+<td style="text-align:center">sed -n &lsquo;17p&rsquo; /etc/passwd</td>
+</tr>
+<tr>
+<td style="text-align:center">10, 20 command</td>
+<td style="text-align:center">匹配从第10行开始，到第20行结束</td>
+<td style="text-align:center">sed -n &lsquo;10, 20p&rsquo; /etc/passwd</td>
+</tr>
+<tr>
+<td style="text-align:center">10， +5 command</td>
+<td style="text-align:center">匹配从第10行开始，到第16行结束</td>
+<td style="text-align:center">sed -n &lsquo;10, +5p&rsquo; /etc/passwd</td>
+</tr>
+<tr>
+<td style="text-align:center">/pattern1/command</td>
+<td style="text-align:center">匹配到 pattern1 的行</td>
+<td style="text-align:center">sed -n &lsquo;/^root/p&rsquo; /etc/passwd  #打印文件中以 root 开头的行</td>
+</tr>
+<tr>
+<td style="text-align:center">/pattern1/,/pattern2/command</td>
+<td style="text-align:center">匹配到 pattern1 的行开始，到匹配到的 pattern2 的行结束</td>
+<td style="text-align:center">sed -n &lsquo;/^root/,/games/p&rsquo; /etc/passwd</td>
+</tr>
+<tr>
+<td style="text-align:center">10, /pattern1/command</td>
+<td style="text-align:center">匹配从第10行开始，到匹配到 pattern1 的行结束</td>
+<td style="text-align:center">sed -n &lsquo;4,/^hdfs/p&rsquo; /etc/passwd</td>
+</tr>
+<tr>
+<td style="text-align:center">/pattern1/, 10 command</td>
+<td style="text-align:center">匹配到 pattern1 的行开始，到第 10 行匹配结束</td>
+<td style="text-align:center">sed -n &lsquo;/^root/,10p&rsquo; /etc/passwd</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sed-中的编辑命令">sed 中的编辑命令</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">编辑命令</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">查询</td>
+<td style="text-align:center">p</td>
+<td style="text-align:center">打印</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">增加</td>
+<td style="text-align:center">a</td>
+<td style="text-align:center">行后追加</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">增加</td>
+<td style="text-align:center">i</td>
+<td style="text-align:center">行前追加</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">增加</td>
+<td style="text-align:center">r</td>
+<td style="text-align:center">外部文件读入，行后追加</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">增加</td>
+<td style="text-align:center">w</td>
+<td style="text-align:center">匹配行写入外部文件</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">删除</td>
+<td style="text-align:center">d</td>
+<td style="text-align:center">删除</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">修改</td>
+<td style="text-align:center">s/old/new</td>
+<td style="text-align:center">将行内第一个 old 替换为 new</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">修改</td>
+<td style="text-align:center">s/old/new/g</td>
+<td style="text-align:center">将行内全部的 old 替换为 new</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">修改</td>
+<td style="text-align:center">s/old/new/2g</td>
+<td style="text-align:center">将行内前2个 old 替换为 new</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">修改</td>
+<td style="text-align:center">s/old/new/ig</td>
+<td style="text-align:center">将行内 old 全部替换为 new, 忽略大小写</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</article><section class="article labels"><a class="category" href=/categories/shell/>shell</a><a class="tag" href=/tags/shell/>shell</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/%E5%85%B3%E4%BA%8E%E6%B8%B8%E6%88%8F%E6%8E%92%E8%A1%8C%E6%A6%9C%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%8F%8D%E6%80%9D/"><span class="iconfont icon-article"></span>关于游戏排行榜设计的反思</a></p><p><a class="link" href="/posts/shell%E7%BC%96%E7%A8%8B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/"><span class="iconfont icon-article"></span>Shell 编程中常用的工具</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

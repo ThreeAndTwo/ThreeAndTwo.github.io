@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Mac 上安装 Tesseract 采坑集锦&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mac 上安装 Tesseract 采坑集锦" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Mac 上安装 Tesseract 采坑集锦</h1><p class="article date">Wednesday, December 16, 2020</p></section><article class="article markdown-body"><blockquote>
+<p>差点就在这坑底躺平了！</p>
+</blockquote>
+<h3 id="前言">前言</h3>
+<blockquote>
+<p>能用 Docker 解决的，就不要这么采坑了！</p>
+<p>通篇只踩了通过 brew 的安装依赖，编译安装 tesseract 的坑。</p>
+<p>但如果问这篇文章有什么可以借鉴的，大概是思路吧。</p>
+</blockquote>
+<h3 id="环境验证">环境验证</h3>
+<ol>
+<li>
+<p>如果只是想体验一下 tesseract，而没有实际训练模型的需求，那么</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install tesseract
+</code></pre></div><p>是可以满足你的需求。</p>
+</li>
+<li>
+<p>如果已经使用了 1 安装后，发现需要训练数据，则需要先把通过 brew 安装的 <code>tesseract</code> 删掉，即</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew uninstall tesseract
+</code></pre></div><p>也许发现并不能成功写在，出现了以下提示</p>
+<blockquote>
+<p>Error: Refusing to uninstall tesseract</p>
+</blockquote>
+<p>则，使用：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew uninstall --ignore-dependencies tesseract
+</code></pre></div></li>
+</ol>
+<h3 id="tesseract-安装">tesseract 安装</h3>
+<h4 id="安装走起">安装走起</h4>
+<h5 id="1-安装依赖">1. 安装依赖</h5>
+<blockquote>
+<p>这里不会出问题</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install automake autoconf libtool
+$ brew install pkgconfig
+$ brew install icu4c
+$ brew install leptonica
+<span class="c1"># Packages required for training tools.</span>
+$ brew install pango
+<span class="c1"># Optional packages for extra features.</span>
+$ brew install libarchive
+<span class="c1"># Optional package for builds using g++.</span>
+$ brew install gcc
+</code></pre></div><h5 id="2-编译安装-tesseract">2. 编译安装 tesseract</h5>
+<blockquote>
+<p>这里比较安全，但是可能出错</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/tesseract-ocr/tesseract/
+$ <span class="nb">cd</span> tesseract
+$ ./autogen.sh
+$ mkdir build
+$ <span class="nb">cd</span> build
+</code></pre></div><p>ps: 官方极力回避，直接使用 Mac 的 Clang 编译文件，确实也是编译生成的文件，往后执行的时候是会报错的。因此</p>
+<ul>
+<li>通过 brew 安装 gcc</li>
+<li>检查 brew gcc 的版本</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 如果已执行，则直接执行下面的命令</span>
+$ brew install gcc 
+$ brew info gcc
+</code></pre></div><p>将会看到：</p>
+<p><a href="https://imgchr.com/i/r3sUFe"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3sUFe.png"
+        alt="r3sUFe.png"/></a>
+</p>
+<p>以我的为例，则为 gcc-10</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ../configure <span class="nv">CC</span><span class="o">=</span>gcc-10 <span class="nv">CXX</span><span class="o">=</span>g++-10 <span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&#34;-I/usr/local/opt/icu4c/include -I/usr/local/opt/pango/include&#34;</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&#34;-L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib&#34;</span> <span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/usr/local/opt/icu4c/lib/pkgconfig
+
+$ make -j
+$ sudo make install
+</code></pre></div><p>截止这里为止，tesseract 其实已经安装完成了，可以通过</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ tesseract --version
+</code></pre></div><p>进行验证</p>
+<p><a href="https://imgchr.com/i/r3yjUS"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3yjUS.png"
+        alt="r3yjUS.png"/></a>
+</p>
+<h5 id="3-编译安装-tesseract-train">3. 编译安装 tesseract train</h5>
+<blockquote>
+<p>这里很可能有问题</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ make training
+$ sudo make training-install
+</code></pre></div><p>进行验证</p>
+<p><a href="https://imgchr.com/i/r365ZV"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r365ZV.png"
+        alt="r365ZV.png"/></a>
+</p>
+<h4 id="关于版本的坑">关于版本的坑</h4>
+<blockquote>
+<p>刚开始傻乎乎的直接 clone 了 git 上的最新版本的，并木有去找最新  release 版本。</p>
+</blockquote>
+<h5 id="报错详情">报错详情</h5>
+<p>在执行到 <code>make training</code> 的时候</p>
+<p><a href="https://imgchr.com/i/r3cDyR"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3cDyR.png"
+        alt="r3cDyR.png"/></a>
+</p>
+<p>出现了喜大普奔的：ld: symbol(s) not found for architecture x86_6</p>
+<h5 id="解决方案">解决方案</h5>
+<p><a href="https://imgchr.com/i/r3cRYD"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3cRYD.png"
+        alt="r3cRYD.png"/></a>
+</p>
+<p><a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling.md#macos-building-for-arm-apple-darwin64"target="_blank" rel="noopener noreferrer">传送门 &ndash; macOS: building for arm-apple-darwin64</a>
+</p>
+<p>出现这一问题后，我直接将版本回退了，回退了成我当前的 release 的最新版本，即：4.1.1 版本。并未验证 5.0.0 的 5.0.0-alpha 版本。若执意要踩，也许下面的传送门，能帮到你。</p>
+<p><a href="https://github.com/tesseract-ocr/tesseract/issues/2334"target="_blank" rel="noopener noreferrer">传送门 &ndash; 5.0.0-alpha issue</a>
+</p>
+<h4 id="关于-make-train-的坑">关于 make train 的坑</h4>
+<blockquote>
+<p>一度卡在这里，差点就想用 docker ，放弃采坑了惹。</p>
+</blockquote>
+<ol>
+<li>
+<h5 id="为什么会卡在这里">为什么会卡在这里？</h5>
+<p>因为最开始使用的是官方文档上的</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ../configure <span class="nv">CC</span><span class="o">=</span>gcc-10 <span class="nv">CXX</span><span class="o">=</span>g++-10 <span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/usr/local/opt/icu4c/lib/pkgconfig:/usr/local/opt/libarchive/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
+</code></pre></div><p>然后意（毫）料（无）之（防）中（备）的出现了下面的问题</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">/bin/sh ../libtool  --tag<span class="o">=</span>CXX   --mode<span class="o">=</span>link g++-6  -g -O2 -std<span class="o">=</span>c++11  -L/usr/local/opt/icu4c/lib -o text2image text2image.o libtesseract_training.la libtesseract_tessopt.la  -licui18n -licuuc  ../api/libtesseract.la -licui18n -licuuc -lpango-1.0 -lpangocairo-1.0 -lgobject-2.0 -lglib-2.0 -lcairo -lpangoft2-1.0 -lfontconfig  -L/usr/local/Cellar/leptonica/1.74.4/lib -llept
+libtool: link: g++-6 -g -O2 -std<span class="o">=</span>c++11 -o .libs/text2image text2image.o -Wl,-bind_at_load  -L/usr/local/opt/icu4c/lib ./.libs/libtesseract_training.a ./.libs/libtesseract_tessopt.a ../api/.libs/libtesseract.dylib -L/usr/local/Cellar/leptonica/1.74.4/lib -licui18n -licuuc -lpango-1.0 -lpangocairo-1.0 -lgobject-2.0 -lglib-2.0 -lcairo -lpangoft2-1.0 -lfontconfig -llept -fopenmp
+ld: library not found <span class="k">for</span> -lpango-1.0
+collect2: error: ld returned <span class="m">1</span> <span class="nb">exit</span> status
+make<span class="o">[</span>1<span class="o">]</span>: *** <span class="o">[</span>text2image<span class="o">]</span> Error <span class="m">1</span>
+make: *** <span class="o">[</span>training<span class="o">]</span> Error <span class="m">2</span>
+</code></pre></div></li>
+<li>
+<h5 id="排查思路是什么">排查思路是什么？</h5>
+<p>刚开始看到这个错误的时候，心想直接在 .zshrc 文件中手动指定就可以找得到了（前提是你确定自己安装了 pango）</p>
+<p><a href="https://imgchr.com/i/r352z8"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r352z8.png"
+        alt="r352z8.png"/></a>
+</p>
+<p><strong>.zshrc</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#添加到gcc头文件</span>
+<span class="nb">export</span> <span class="nv">C_INCLUDE_PATH</span><span class="o">=</span><span class="nv">$C_INCLUDE_PATH</span>:/usr/local/Cellar/pango/1.48.0/lib
+<span class="c1">#添加到g++头文件路径</span>
+<span class="nb">export</span> <span class="nv">CPLUS_INCLUDE_PATH</span><span class="o">=</span><span class="nv">$CPLUS_INCLUDE_PATH</span>:/usr/local/Cellar/pango/1.48.0/lib
+<span class="c1">#添加到动态库</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/Cellar/pango/1.48.0/lib
+<span class="c1">#添加到静态库</span>
+<span class="nb">export</span> <span class="nv">LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LIBRARY_PATH</span>:/usr/local/Cellar/pango/1.48.0/lib
+</code></pre></div><p>本来以为万事大吉，重新 <code>make training</code> 的时候，我哭了&hellip;&hellip;</p>
+<p><a href="https://imgchr.com/i/r3I8Og"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3I8Og.png"
+        alt="r3I8Og.png"/></a>
+</p>
+<p>gobject 是个什么鬼啊？按理来说，和上一步一样，加到 .zshrc 文件中即可。问题接踵而至：MacOS 上面确实没有这个库的啊，brew search 了一下，也没有。作何解？</p>
+<p>那么回到上一步，继续看 pango 的问题。实际看看 pkg-config，确认下是否真的缺少了 pango 的包，还是说，编译时找不到。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ pkg-config pango --libs
+</code></pre></div><p>看到了下面的信息：</p>
+<p><a href="https://imgchr.com/i/r3I56O"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3I56O.png"
+        alt="r3I56O.png"/></a>
+</p>
+<p>那么说明，pango 显然是存在的，在生成 makefile 文件的时候，缺损了什么信息，导致没找到。查看一下（内心 OS：想看看 configure 文件的配置参数以及其作用和意义。）</p>
+<p>那么直接修改 makefile 文件，继而重新 <code>make training</code> 应该没问题。</p>
+<p>然后去修改了，makefile 文件，手动添加了</p>
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nv">LDFLAGS</span> <span class="o">=</span> -L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib
+</code></pre></div><p>发现还是报同样的错误。。。</p>
+<p>算了，还是查 configure 文件的参数吧！</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ /Users/kai/Downloads/tesseract-4.1.1/build
+$ ../configure --help
+</code></pre></div><p>将会看到</p>
+<p><a href="https://imgchr.com/i/r3xCtS"target="_blank" rel="noopener noreferrer"><img  src="https://s3.ax1x.com/2020/12/17/r3xCtS.png"
+        alt="r3xCtS.png"/></a>
+</p>
+<p>最后发现：在生成 makefile 文件的时候，需要指定：<code>LDFLAGS</code> 以及 <code>CPPFLAGS</code>，即：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&#34;-I/usr/local/opt/icu4c/include -I/usr/local/opt/pango/include&#34;</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&#34;-L/usr/local/opt/icu4c/lib -L/usr/local/opt/pango/lib -L/usr/local/lib&#34;</span>
+</code></pre></div></li>
+<li>
+<h5 id="心得是什么">心得是什么？</h5>
+<p>一步步的排查，去官方渠道找排查思路。</p>
+</li>
+<li>
+<h5 id="未踩的组合是什么">未踩的组合是什么？</h5>
+<p>按理来说，直接修改 makefile 文件是可以生效编译的，我自己将最后成功安装的 makefile 文件和之前失败的对比了，因为我之前修改 makefile 文件的时候，只添加了 <code>LDFLAGS</code> 的参数，而并没有添加 <code>CPPFLAGS</code>。不确定是否因为这个原因导致 <code>make training</code> 失败的。</p>
+</li>
+</ol>
+<h4 id="最后">最后</h4>
+<ol>
+<li>跪求各位不要转载未经验证的东西了，翻译也可以直接表明翻译。</li>
+<li>docker 真香系列。</li>
+<li>如果本文有歧义，请联系我，谢谢！</li>
+</ol>
+<h3 id="参考文档">参考文档</h3>
+<p><a href="https://github.com/tesseract-ocr/tessdoc"target="_blank" rel="noopener noreferrer">1. 官方文档，这里最靠谱</a>
+</p>
+<p><a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling.md#macos"target="_blank" rel="noopener noreferrer">2. 编译安装的官方文档</a>
+</p>
+<p><a href="https://github.com/tesseract-ocr/tesseract/issues/1028"target="_blank" rel="noopener noreferrer">3. issue for <code>make training</code> ld error when building 4.0 on macOS</a>
+</p>
+</article><section class="article labels"><a class="category" href=/categories/tesseract/>Tesseract</a><a class="tag" href=/tags/mac-tesseract/>Mac Tesseract</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/studypostgres001/"><span class="iconfont icon-article"></span>postgres in 2 hours</a></p><p><a class="link" href="/posts/escape_analysis_for_go/"><span class="iconfont icon-article"></span>Go 内存逃逸分析</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

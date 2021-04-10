@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Mac 上最简单的 RabbitMQ 安装&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mac 上最简单的 RabbitMQ 安装" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Mac 上最简单的 RabbitMQ 安装</h1><p class="article date">Monday, January 13, 2020</p></section><article class="article markdown-body"><h3 id="前提">前提</h3>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">安装好了 Homebrew
+安装好了 RabbitMQ 依赖（brew install erlang）
+</code></pre></div><h3 id="三种安装方式">三种安装方式</h3>
+<h4 id="一最简单傻瓜式">一、最简单（傻瓜式）</h4>
+<p><a href="https://jpadilla.github.io/rabbitmqapp/">https://jpadilla.github.io/rabbitmqapp/</a></p>
+<pre><code>直接下载客户端（推荐）
+	下载后直接拖到 Applications 中，然后双击点开，即可运行。
+
+交给 Homebrew 托管安装
+	1) 在 iterm 中执行 &quot;brew cask install rabbitmq&quot; 即可
+</code></pre><p>不论是直接下载或是使用 Homebrew方式，最后都需要给 <code>~/.bash_profile</code>. 或者是 <code>~/.zshrc</code> 中添加路径（我自己的在<code>~/.zshrc</code>中）</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># Add RabbitMQ.app binaries to path</span>
+<span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;/Applications/RabbitMQ.app/Contents/Resources/Vendor/rabbitmq/sbin:</span><span class="nv">$PATH</span><span class="s2">&#34;</span>
+</code></pre></div><p>更新路径文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">source</span> ~/.bash_profile 或是 <span class="nb">source</span> ~/.zshrc
+</code></pre></div><p>验证是否安装成功</p>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbly1gavby8ku4dj20au0c6q3t.jpg" alt="1.jpg" style="zoom:50%;" /></p>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbly1gavbzidszxj21eg1ag10n.jpg" alt="2.jpg" style="zoom:50%;" /></p>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbly1gavbzwcuxhj20xu0xeaen.jpg" alt="3.jpg" style="zoom:50%;" /></p>
+<blockquote>
+<p>最后一定要验证是否将环境变量加入到 path 中，以方便后期的使用</p>
+</blockquote>
+<h4 id="二homebrew-托管方式">二、Homebrew 托管方式</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew update
+brew install erlang <span class="o">[</span>依赖<span class="o">]</span>
+brew install rabbitmq
+</code></pre></div><p>之后和一相同，修改路径文件，加入 rabbitmq 的路径即可。（当然这是一帆风顺的时候）</p>
+<h4 id="三源码编译不推荐">三、源码编译（不推荐）</h4>
+<p>最不方便管理，但是能理解安装过程的方式。我一般在测试，生产环境才会安装，这里按下不表。</p>
+<h3 id="那些惊喜">那些惊喜</h3>
+<p>刚开始安装 rabbitmq 的时候，首先想到的是 Homebrew 托管的方式，但是出现了两个好巧不巧的<strong>意外</strong>。</p>
+<h4 id="一安装-erlang-时的-wxmac-模块报错">一、安装 erlang 时的 wxmac 模块报错。</h4>
+<p>安装 erlang 时候，被卡在 wxmac 这里了，iterm 显示的进度始终是 0.1%，查了下 GitHub 上的源文件，妈耶！ 404。</p>
+<h5 id="解决方案google-homebrew-wxmac">解决方案（Google: homebrew wxmac）</h5>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbly1gavcdscuu7j216u1c0q8p.jpg" alt="1.jpg" style="zoom:50%;" /></p>
+<p>Also know as 说明了</p>
+<blockquote>
+<p>brew install wxmac == brew install wxwidgets</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew intall wxwidgets --HEAD
+git clone https://github.com/wxWidgets/wxWidgets.git  <span class="o">[</span>更新至最新<span class="o">]</span>
+</code></pre></div><p>搞定！</p>
+<h4 id="二安装-rabbitmq-时的-libressl-ssl_read-ssl_error_syscall-errno-54">二、安装 rabbitmq 时的 LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 54</h4>
+<p>看到这个的问题的时候，第一反应，要科学上网，可明明已经科学上网了，而且终端里面的地址也能在浏览器中正常访问。查了一圈，更新 git 了，不起作用，推荐换源[真的不想换]。于是就有了 <strong>傻瓜式</strong> 安装方案。</p>
+</article><section class="article labels"><a class="category" href=/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/>消息队列</a><a class="tag" href=/tags/mac-rabbitmq/>Mac RabbitMQ</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/rabbitmq_%E5%88%9D%E8%AF%86/"><span class="iconfont icon-article"></span>RabbitMQ_初识</a></p><p><a class="link" href="/posts/hexo_github%E9%87%87%E5%9D%91/"><span class="iconfont icon-article"></span>hexo + github采坑</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Go 内存逃逸分析&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Go 内存逃逸分析" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Go 内存逃逸分析</h1><p class="article date">Wednesday, July 22, 2020</p></section><article class="article markdown-body"><h3 id="一栈和堆">一、栈和堆</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">速度（相对而言）</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:center">缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">栈</td>
+<td style="text-align:center">快</td>
+<td style="text-align:center">分配速度快，CPU 执行 “PUSH”, &ldquo;RELEASSE&rdquo;</td>
+<td style="text-align:center">容量小</td>
+</tr>
+<tr>
+<td style="text-align:center">堆</td>
+<td style="text-align:center">慢</td>
+<td style="text-align:center">可根据需要分配内存</td>
+<td style="text-align:center">分配速度慢（先找到一块合适的内存快，然后 GC 跟踪才能最终被释放）；容易产生内存碎片</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二什么是逃逸分析">二、什么是逃逸分析？</h3>
+<p>**简单的理解：**它决策一个变量应该被分配在栈上还是堆上。</p>
+<p>**《编译原理》中指的逃逸分析：**分析指针动态范围的方法。</p>
+<p><strong>Go 中的逃逸分析：</strong> 编译器执行静态代码分析后，对内存管理的简化和优化。</p>
+<h3 id="三为什么编译器要进行逃逸分析">三、为什么编译器要进行逃逸分析？</h3>
+<p>其实看到一的内容，心里大概就七七八八了。因为变量使用栈和堆的代价不同，而栈是有“限制”的（相对），因此就需要将变量合理的分配到合适的区域。</p>
+<p>假设，一个变量本应该被分配在栈上，而去了堆区的话，则会触发 GC 机制。相对而言，栈则可以自动清理。其中的代价也是不低的。</p>
+<p>通过逃逸分析，可以尽量把那些不需要分配到堆上的变量直接分配到栈上，堆上的变量少了，会减轻分配堆内存的开销，同时也会减少gc的压力，提高程序的运行速度。</p>
+<h3 id="四那么我们怎么知道一个变量应该被分配在对上还是栈上">四、那么我们怎么知道一个变量应该被分配在对上还是栈上？</h3>
+<p>我们其实是不知道的，或者是不需要知道的。因为这是 Go 编译器的工作。但是可以简单的做如下理解：</p>
+<ol>
+<li>如果函数外部没有引用，则优先放到栈中。</li>
+<li>如果函数外部存在引用，则必定放到堆中。</li>
+<li>如果 1 中的变量占用内存较多，超出栈的存储能力，则会被置于堆中。</li>
+</ol>
+<h3 id="五编译器是如何做逃逸分析的">五、编译器是如何做逃逸分析的？</h3>
+<p>**Go 编译器做逃逸分析的基本原则：**如果一个函数返回对一个变量的引用，则触发逃逸。</p>
+<p><strong>Go 编译器逃逸分析的过程：</strong></p>
+<ol>
+<li>编译器分析代码的特征，以及代码的生命周期。</li>
+<li>向编译器证明变量自身的引用情况，被引用和没有被引用，无法证明。</li>
+<li>如果没有被引用，则被放置到栈中。</li>
+<li>如果没有被引用，或无法证明的情况下，则被放置到堆中。</li>
+</ol>
+<p><img src="https://s1.ax1x.com/2020/07/22/UHM4hR.png" alt="UHM4hR.png" style="zoom:50%;" /></p>
+<p>**判断的核心是：**变量是否被引用了，而不是取地址符（联想 GC 的处理过程更容易理解）</p>
+<p>比如：对一个变量取地址符，则这个变量可能被分配到堆上。但是如果你只是拿到了这个变量的引用，但是没有使用，编译器进行逃逸分析之后，判定该变量没有被引用，则最终会被分配到栈上。因此，重要的是使用变量的引用，而不是拿到引用！</p>
+<p>Go 语言中没有一个关键字或者函数可以直接让变量被编译器分配到堆上，相反，编译器通过分析代码来决定将变量分配到何处。</p>
+<h3 id="六逃逸分析案例">六、逃逸分析案例</h3>
+<h4 id="测试环境">测试环境</h4>
+<pre><code>go version go1.14.4 darwin/amd64
+</code></pre><h4 id="测试代码">测试代码</h4>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="o">*</span><span class="kt">int</span> <span class="p">{</span>
+	<span class="nx">t</span> <span class="o">:=</span> <span class="mi">3</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">t</span>
+<span class="p">}</span>
+
+<span class="c1">// Go 逃逸分析案例
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">x</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">()</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">x</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h4 id="测试">测试</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">go build -gcflags <span class="s1">&#39;-m -l&#39;</span> escape1.go
+</code></pre></div><p>结果：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># command-line-arguments</span>
+./escape1.go:6:2: moved to heap: t
+./escape1.go:13:13: ... argument does not escape
+./escape1.go:13:14: *x escapes to heap
+</code></pre></div><p>个人理解，<code>t</code>应该是逃逸了，为什么没有打印呢？之前大佬测试的版本结果如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># command-line-arguments</span>
+src/main.go:7:9: <span class="p">&amp;</span>t escapes to heap
+src/main.go:6:7: moved to heap: t
+src/main.go:12:14: *x escapes to heap
+src/main.go:12:13: main ... argument does not escape
+</code></pre></div><p>明确打印了<code>t</code>逃逸了！</p>
+<p>再使用 GO 伪汇编代码查看：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">go tool compile -S escape1.go
+</code></pre></div><p>结果：</p>
+<p><img  src="https://s1.ax1x.com/2020/07/22/UHwAyQ.png"
+        alt="UHwAyQ.png"/></p>
+<p>最后：请教了大佬，大佬回复说算。突然转念一想，<code>moved to heap: t</code>，不是很明确了吗，从堆上移除了变量 <code>t</code>。</p>
+<h3 id="七参考">七、参考</h3>
+<ol>
+<li><a href="https://golang.org/doc/faq#stack_or_heap"target="_blank" rel="noopener noreferrer">四问题的官方更为详细的解释</a>
+</li>
+<li><a href="https://juejin.im/post/5c7920f3e51d457120759b77"target="_blank" rel="noopener noreferrer">Golang之变量去哪儿？</a>
+</li>
+</ol>
+</article><section class="article labels"><a class="category" href=/categories/go/>Go</a><a class="tag" href=/tags/go/>Go</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/macos%E7%8E%A9%E8%BD%ACtesseract/"><span class="iconfont icon-article"></span>Mac 上安装 Tesseract 采坑集锦</a></p><p><a class="link" href="/posts/gc_go1/"><span class="iconfont icon-article"></span>Go-GC 详解（理论）</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

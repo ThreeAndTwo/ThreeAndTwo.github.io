@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>getoutline.com installation guide&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="getoutline.com installation guide" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">getoutline.com installation guide</h1><p class="article date">Tuesday, January 19, 2021</p></section><article class="article markdown-body"><blockquote>
+<p>只测试了 Mac，Linux For Centos 平台的，其余的组合不在本文的范围内，但其实都大同小异。</p>
+</blockquote>
+<h3 id="起因">起因</h3>
+<p>公司要换一个 wiki 工具，需要良好的支持 markdown，以便积累知识。对比后选定了和 Notion 很接近的  outline。</p>
+<h3 id="依赖环境">依赖环境</h3>
+<ul>
+<li><a href="https://nodejs.org/en/"target="_blank" rel="noopener noreferrer">nodejs</a>
+ &gt;= 12</li>
+<li><a href="https://yarnpkg.com/"target="_blank" rel="noopener noreferrer">Yarn</a>
+</li>
+<li><a href="https://www.postgresql.org/download/"target="_blank" rel="noopener noreferrer">Postgrest</a>
+ &gt;= 9.5</li>
+<li><a href="https://redis.io/"target="_blank" rel="noopener noreferrer">Redis</a>
+ &gt;= 4</li>
+<li><a href="https://s3.console.aws.amazon.com/s3/home?region=us-east-2#"target="_blank" rel="noopener noreferrer">AWS S3</a>
+</li>
+<li><a href="https://slack.com/signin#/signin"target="_blank" rel="noopener noreferrer">Slack</a>
+</li>
+</ul>
+<h3 id="配置文件中的要素">配置文件中的要素</h3>
+<ol>
+<li>slack 的信息</li>
+<li>slack 的回调地址</li>
+<li>数据库的地址</li>
+<li>redis 的信息</li>
+<li>aws 的配置信息</li>
+</ol>
+<h3 id="配置文件的参数修改">配置文件的参数修改</h3>
+<ol>
+<li>
+<p>复制配置文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cp .env.example .env
+</code></pre></div></li>
+<li>
+<p>生成 SECRET_KEY</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ openssl rand -hex <span class="m">32</span>
+</code></pre></div></li>
+<li>
+<p>配置 postgres 信息</p>
+<blockquote>
+<p>分为正式库和测试库</p>
+</blockquote>
+<pre><code>DATABASE_URL=postgres://user:pass@localhost:5532/outline
+DATABASE_URL_TEST=postgres://user:pass@localhost:5532/outline-test
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">配置参数</th>
+<th style="text-align:center">参数含义</th>
+<th style="text-align:center">参数示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">postgres</td>
+<td style="text-align:center">选定的存储的 DB 的类型（也可以为 mysql,sqlite等等）</td>
+<td style="text-align:center">postgres</td>
+</tr>
+<tr>
+<td style="text-align:center">user</td>
+<td style="text-align:center">postgres 的登陆用户</td>
+<td style="text-align:center">psql_acount</td>
+</tr>
+<tr>
+<td style="text-align:center">pass</td>
+<td style="text-align:center">postgres 的登陆密码</td>
+<td style="text-align:center">psql_password</td>
+</tr>
+<tr>
+<td style="text-align:center">5532</td>
+<td style="text-align:center">postgres 的端口号</td>
+<td style="text-align:center">5432</td>
+</tr>
+<tr>
+<td style="text-align:center">outline</td>
+<td style="text-align:center">数据库名称</td>
+<td style="text-align:center">outline</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>配置 redis</p>
+<pre><code>REDIS_URL=redis://localhost:6479
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">配置参数</th>
+<th style="text-align:center">参数含义</th>
+<th style="text-align:center">参数示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">redis</td>
+<td style="text-align:center">缓存介质为 redis</td>
+<td style="text-align:center">redis</td>
+</tr>
+<tr>
+<td style="text-align:center">localhost</td>
+<td style="text-align:center">redis 连接信息</td>
+<td style="text-align:center">localhost</td>
+</tr>
+<tr>
+<td style="text-align:center">6479</td>
+<td style="text-align:center">redis 端口号</td>
+<td style="text-align:center">6479</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>其余配置项</p>
+<pre><code># 此处的 url 为 slack 回调的 url，
+URL=http://localhost:3000
+PORT=3000
+   
+# 测试修改为 false
+FORCE_HTTPS=false
+</code></pre></li>
+<li>
+<p>slack</p>
+<ul>
+<li>注册 slack 账号。</li>
+<li><a href="https://api.slack.com/">https://api.slack.com/</a>  申请 app，即可获取到对应的信息。需要注意的是回调地址需要配置好，slack 支持多个回调地址，因此测试和生产可互不影响，具体的步骤可自行按照官方文档进行操作。</li>
+<li>NGINX 开启 ssl 的时候，一定要将回调地址的 http 改为 https。</li>
+</ul>
+</li>
+</ol>
+<h3 id="安装走起">安装走起</h3>
+<ol>
+<li><code>yarn install</code></li>
+<li><code>yarn build</code></li>
+</ol>
+<p>成功执行完这两步后，会在 app 的同级目录生成 build 文件。</p>
+<ol start="3">
+<li>检查所有的依赖的服务以及其配置项</li>
+<li><code>yarn sequelize:migrate</code> 或 <code>yarn sequelize:migrate --env=production-ssl-disabled</code>（不需要 ssl 时，使用该方式）</li>
+<li><code>yarn start</code></li>
+<li>若需要后台挂起可使用 pm2，使用 <code>NODE_ENV=production pm2 start ./build/server/index.js --name outline</code>。短暂的测试进程挂起可使用：<code>nohup node ./build/server/index.js &amp;</code></li>
+</ol>
+<h3 id="最后看自身的需求要不要配置-nginx">最后看自身的需求要不要配置 Nginx</h3>
+<blockquote>
+<p>一下是我自己的配置信息</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">cd</span> /etc/nginx/conf.d/
+$ touch outline.conf
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">server</span> <span class="p">{</span>
+	<span class="kn">listen</span>	<span class="mi">80</span><span class="p">;</span>
+	<span class="c1"># listen 443 ssl;
+</span><span class="c1"></span>	<span class="kn">server_name</span>	<span class="s">hostname</span><span class="p">;</span>
+
+	<span class="kn">access_log</span>	<span class="s">/var/log/nginx/outline.log</span> <span class="s">main</span><span class="p">;</span>
+
+	<span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+		<span class="kn">proxy_pass</span>	<span class="s">http://127.0.0.1:3000/</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="参考">参考</h3>
+<p><a href="https://github.com/outline/outline"target="_blank" rel="noopener noreferrer">outline 官方指导</a>
+</p>
+</article><section class="article labels"><a class="category" href=/categories/opensource/>OpenSource</a><a class="tag" href=/tags/getoutline/>getoutline</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/outline2app/"><span class="iconfont icon-article"></span>outline to desktop app</a></p><p><a class="link" href="/posts/studypostgres001/"><span class="iconfont icon-article"></span>postgres in 2 hours</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

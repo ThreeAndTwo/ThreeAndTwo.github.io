@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Github 上搭建的 hexo 博客被 Google 收录的步骤&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Github 上搭建的 hexo 博客被 Google 收录的步骤" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Github 上搭建的 hexo 博客被 Google 收录的步骤</h1><p class="article date">Tuesday, January 21, 2020</p></section><article class="article markdown-body"><blockquote>
+<p>由于自搭建部署在 github 上的 hexo 博客并不会被搜索引擎收录，所以想让Google收录一下，至于百度，由于要手机号，放弃了。</p>
+</blockquote>
+<h4 id="配置前的工作">配置前的工作</h4>
+<ol>
+<li>在部署 hexo 博客的根目录下安装插件</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">npm install hexo-generator-sitemap --save			// eg: /Users/kai/Code/hexoBlog
+</code></pre></div><p>ps: 会产生 public/sitemap.xml 的文件。</p>
+<ol start="2">
+<li>配置 blog 最上级目录的 _config.yml 文件</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">#google search
+sitemap:
+  path: sitemap.xml			
+## 注意次文件下的 url 务必是自己的 blog 的 url
+</code></pre></div><ol start="3">
+<li>编译并推送 blog</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ hexo g
+$ hexo s
+</code></pre></div><p>ps:  此时 sitemap.xml 文件有以前文章的信息了</p>
+<p><img src="http://ww1.sinaimg.cn/large/e39133fbly1gb3ywuugnwj20pa06w777.jpg" alt="createSitemap.png" style="zoom:75%;" /></p>
+<h4 id="配置-google-收录博客">配置 Google 收录博客</h4>
+<ol>
+<li>
+<p>进入 Google 收录的地址 <a href="https://search.google.com/search-console/welcome"target="_blank" rel="noopener noreferrer">传送门</a>
+</p>
+<p><img src="http://ww1.sinaimg.cn/large/e39133fbgy1gb3zi7yg22j22l61eqdn0.jpg" alt="gsconsole.png" style="zoom:98%;" /></p>
+<p>ps: 选右边的那个提交 url 即可</p>
+</li>
+<li>
+<p>设置站点地图</p>
+</li>
+</ol>
+<p><img src="http://ww1.sinaimg.cn/large/e39133fbly1gb3z504urbj22lc1ew460.jpg" alt="googleSearchSitemap.png" style="zoom:80%;" /></p>
+<p>这样提交即可</p>
+<h4 id="补充">补充</h4>
+<p>过了一天发现被收录了，但是可能直接在引擎里面搜索是发现不了的，因为 Google 第一步收录的是网页，再然后将其加入到 搜索的索引当中的。所以如果用 site:yoursite:github.io 搜索不到的时候可以再等等，或者手动提交加索引当中。如下图操作所示。</p>
+<p><img src="http://ww1.sinaimg.cn/large/e39133fbgy1gb3zavpbemj22lc1eq7cw.jpg" alt="编入索引.png" style="zoom:98%;" /></p>
+<p>以上就完成了想要完成的全部步骤。</p>
+</article><section class="article labels"><a class="category" href=/categories/blog/>blog</a><a class="tag" href=/tags/hexo-github/>hexo github</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/shell_%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/"><span class="iconfont icon-article"></span>Shell_字符串处理</a></p><p><a class="link" href="/posts/%E5%80%BC%E5%BE%97%E5%AE%89%E8%A3%85%E7%9A%84chrome%E6%8F%92%E4%BB%B6/"><span class="iconfont icon-article"></span>值得安装的chrome插件</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

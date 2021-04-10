@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>RabbitMQ_初识&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="RabbitMQ_初识" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">RabbitMQ_初识</h1><p class="article date">Monday, January 13, 2020</p></section><article class="article markdown-body"><h3 id="管理命令rabbitmq-传送门httpswwwrabbitmqcomtutorialstutorial-one-gohtml">管理命令（<a href="https://www.rabbitmq.com/tutorials/tutorial-one-go.html"target="_blank" rel="noopener noreferrer">RabbitMQ 传送门</a>
+）</h3>
+<h4 id="启动">启动</h4>
+<p><code>rabbitmq-server</code></p>
+<h4 id="查看节点信息">查看节点信息</h4>
+<p><code>rabbitmqctl status</code></p>
+<h4 id="插件管理命令">插件管理命令</h4>
+<p><code>rabbitmq-plugins list</code></p>
+<h4 id="如何查看命令参数大同小异">如何查看命令参数(大同小异)</h4>
+<p><code>rabbitmq-plugins/rabbitmqctl help</code></p>
+<h4 id="安装-web--管理界面">安装 web  管理界面</h4>
+<p><code>rabbitmq-plugins enable rabbitmq_management</code></p>
+<h4 id="卸载插件">卸载插件</h4>
+<p><code>rabbitmq-plugins disable rabbitmq_management</code></p>
+<h4 id="核心概念">核心概念</h4>
+<ol>
+<li>VirtualHost</li>
+<li>Connection</li>
+<li>Exchange</li>
+<li>Channel</li>
+<li>Queue</li>
+<li>Binding</li>
+</ol>
+<h3 id="常用工作模式-5-种">常用工作模式( 5 种)</h3>
+<blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">go</span> <span class="nx">get</span> <span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">streadway</span><span class="o">/</span><span class="nx">amqp</span>			<span class="c1">// 模块安装
+</span></code></pre></div></blockquote>
+<h4 id="simple">Simple</h4>
+<p>最简单的模式，线性处理。</p>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbgy1gb12skpnqhj20mm0583ys.jpg" alt="simpleModel.jpg" style="zoom:50%;" /></p>
+<h4 id="work数据分流起到负载的作用">Work（数据分流，起到负载的作用）</h4>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbgy1gb12t52t4oj20ja06mdg4.jpg" alt="workModel.jpg" style="zoom:50%;" /></p>
+<p>一个消息只能被一个消费者获取，但是一个消费者可以对应多个 channel（C1, C2）。</p>
+<h4 id="publishsubscribe">Publish/Subscribe</h4>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbgy1gb12tdz9i0j20ju074dg6.jpg" alt="SubscribeModel.jpg" style="zoom:50%;" /></p>
+<p>消息被路由投递个多个队列，一个消息被多个消费者获取。</p>
+<h4 id="routing">Routing</h4>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbgy1gb12trfl8pj20oy096gmr.jpg" alt="RoutingModel.png" style="zoom:50%;" /></p>
+<p>一个消息被多个消费者获取，并且消息的目标队列可被生产者指定。</p>
+<h4 id="topic">Topic</h4>
+<p><img referrerpolicy="no-referrer" src="http://ww1.sinaimg.cn/large/e39133fbgy1gb12u2ij7sj20t40a0wfp.jpg" alt="TopicModel.png" style="zoom:50%;" /></p>
+<p>一个消息被多个消费者获取，消息的目标 queue 可用 BindingKey 以通配符，（#: 一个或多个词，*: 一个词）的方式指定。</p>
+</article><section class="article labels"><a class="category" href=/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/>消息队列</a><a class="tag" href=/tags/rabbitmq/>RabbitMQ</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/%E5%80%BC%E5%BE%97%E5%AE%89%E8%A3%85%E7%9A%84chrome%E6%8F%92%E4%BB%B6/"><span class="iconfont icon-article"></span>值得安装的chrome插件</a></p><p><a class="link" href="/posts/mac%E4%B8%8A%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84rabbitmq%E5%AE%89%E8%A3%85/"><span class="iconfont icon-article"></span>Mac 上最简单的 RabbitMQ 安装</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

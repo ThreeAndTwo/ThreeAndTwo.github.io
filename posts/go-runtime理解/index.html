@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Go Runtime理解&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Go Runtime理解" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Go Runtime理解</h1><p class="article date">Saturday, July 11, 2020</p></section><article class="article markdown-body"><h3 id="什么是-runtime">什么是 Runtime？</h3>
+<p>​	是 Go 程序运行中使用的一个库，控制着：gc（garbage collector），内存分配，协程调度（goroutine scheduler）</p>
+<h3 id="为什么要了解-runtime">为什么要了解 Runtime？</h3>
+<p>为什么不了解 Runtime？gc 不重要吗？理解内存分配不重要吗？理解协程调度不重要吗？都很重要啊！所以更要研究啊。</p>
+<h3 id="runtime-初步认识">Runtime 初步认识</h3>
+<ol>
+<li>协程调度，内存分配，GC</li>
+<li>操作系统及 CPU 相关的操作的封装（信号处理，系统调用，寄存器操作，原子操作等），CGO</li>
+<li>pprof，trace，race 检测的支持</li>
+<li>map，channel，string 等内置类型及反射的实现</li>
+</ol>
+<p><a href="https://imgchr.com/i/U1S91O"target="_blank" rel="noopener noreferrer"><img  src="https://s1.ax1x.com/2020/07/11/U1S91O.png"
+        alt="Go 代码执行简图"/></a>
+</p>
+<p><strong>特点：</strong></p>
+<ol>
+<li>与 Python, Ruby 相比，Runtime 并非解释器！与 java 相比，也不是虚拟机。Runtime 最后连同用户代码会一同被编译成 native code，打包成一个可执行文件中。</li>
+<li>用户代码与 Runtime 代码在执行的时候并没有明显的界限，都是函数调用</li>
+<li>Go 对系统调用的指令进行了封装，可不依赖于 glibc（go 实现自举后，不再为了性能而依赖其他非 go 实现的库，官方团队解释：不会为了性能，就牺牲简单和可读性）</li>
+<li>一些 Go 关键字被编译器编译成 runtime 包下的函数</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">关键字</th>
+<th style="text-align:center">函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">go</td>
+<td style="text-align:center">newproc</td>
+</tr>
+<tr>
+<td style="text-align:center">new</td>
+<td style="text-align:center">newobject</td>
+</tr>
+<tr>
+<td style="text-align:center">make</td>
+<td style="text-align:center">makeslice, makechan, makemap, makemap_small&hellip;</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">gcStart</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;-     -&gt;</td>
+<td style="text-align:center">chansend1, chanrecv1</td>
+</tr>
+<tr>
+<td style="text-align:center">etc&hellip;</td>
+<td style="text-align:center">etc&hellip;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="runtime-发展历程截止-112-版本">Runtime 发展历程（截止 1.12 版本）</h3>
+<p><img  src="https://s1.ax1x.com/2020/07/11/U1e0KI.png"
+        alt="runtime 发展历程"/></p>
+<p><strong>注</strong>: GC STW时间与堆大小，机器性能，应用分配偏好，对象数量均有关。较早的版本来自网络上的数据。1.41.9数据来源于twitter工程师. 这里是以较大的堆测试，数据仅供参考。普通应用的情况好于上述的数值。</p>
+<p><code>黑色标注的是重要的优化点</code></p>
+<h3 id="goroutine-调度简述">Goroutine 调度简述</h3>
+<h3 id="内存管理">内存管理</h3>
+<h3 id="gc">GC</h3>
+<p><code>参考</code></p>
+</article><section class="article labels"><a class="category" href=/categories/go/>Go</a><a class="tag" href=/tags/go/>Go</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/goland-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"><span class="iconfont icon-article"></span>Goland 使用技巧</a></p><p><a class="link" href="/posts/protobuf%E6%95%99%E7%A8%8B%E8%AF%91%E6%96%87/"><span class="iconfont icon-article"></span>Protobuf教程（译文）</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

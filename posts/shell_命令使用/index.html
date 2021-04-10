@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Shell_命令使用&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Shell_命令使用" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Shell_命令使用</h1><p class="article date">Saturday, February 22, 2020</p></section><article class="article markdown-body"><h3 id="命令替换总结">命令替换总结</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">一</td>
+<td style="text-align:center"><code>command</code></td>
+</tr>
+<tr>
+<td style="text-align:center">二</td>
+<td style="text-align:center">$(command)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">###</span>
+ <span class="c1"># @Description: 获取系统的所有用户并输出</span>
+ <span class="c1"># @Version: 1.0</span>
+ <span class="c1"># @Autor: ThreeAndTwo</span>
+ <span class="c1">###</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="k">for</span> user in <span class="sb">`</span>cat /etc/passwd <span class="p">|</span> cut -d <span class="s2">&#34;:&#34;</span> -f 1<span class="sb">`</span>   <span class="c1"># TODO: 了解cut 命令</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&#34;This is </span><span class="nv">$index</span><span class="s2"> user: </span><span class="nv">$user</span><span class="s2">&#34;</span>
+    <span class="nv">index</span><span class="o">=</span><span class="k">$((</span><span class="nv">$index</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+<span class="k">done</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">###</span>
+ <span class="c1"># @Description: 根据系统时间计算今年或明年</span>
+ <span class="c1"># @Version: 1.0</span>
+ <span class="c1"># @Autor: ThreeAndTwo</span>
+ <span class="c1">###</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date +%Y<span class="k">)</span><span class="s2">&#34;</span>					<span class="c1"># 获取系统今年的时间</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(($(</span>date +%Y<span class="k">)</span> <span class="o">+</span> <span class="m">1</span><span class="k">))</span><span class="s2">&#34;</span>	<span class="c1"># 获取系统明年的时间</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">###</span>
+ <span class="c1"># @Description: 根据系统时间获取今年还剩多少星期，已经过了多少星期</span>
+ <span class="c1"># @Version: 1.0</span>
+ <span class="c1"># @Autor: ThreeAndTwo</span>
+ <span class="c1">###</span>
+
+<span class="c1">#!/bin/bash</span>
+<span class="nb">echo</span> <span class="s2">&#34;days </span><span class="k">$(</span>date +%j<span class="k">)</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;weeks </span><span class="k">$(($(</span>date +%j<span class="k">)</span><span class="o">/</span><span class="m">7</span><span class="k">))</span><span class="s2">&#34;</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;还有 </span><span class="k">$((</span><span class="m">365</span> <span class="o">-</span> <span class="k">$(</span>date +%j<span class="k">)))</span><span class="s2"> 天&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;还有 </span><span class="k">$((</span><span class="o">(</span><span class="m">365</span> <span class="o">-</span> <span class="k">$(</span>date +%j<span class="k">)</span><span class="o">)/</span><span class="m">7</span><span class="k">))</span><span class="s2"> 周&#34;</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">###</span>
+ <span class="c1"># @Description: 判断 NGINX 的进程，若不存在则自动拉起该进程</span>
+ <span class="c1"># @Version: 1.0</span>
+ <span class="c1"># @Autor: ThreeAndTwo</span>
+ <span class="c1">###</span>
+
+<span class="c1">#!/bin/bash</span>
+<span class="nv">nginx_process_num</span><span class="o">=</span><span class="k">$(</span>ps -ef <span class="p">|</span> grep nginx <span class="p">|</span> grep -v grep <span class="p">|</span> wc -ls<span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[</span><span class="nv">$nginx_process_num</span> -eq 0<span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    systemctl start nginx
+f2i
+</code></pre></div><blockquote>
+<p>总结：</p>
+<ol>
+<li>
+<p>`` 和 $() 两者是等价的，推荐新手使用 $()，易于掌握；缺点是<font color=red>极少数的 NUIX 系统可能不支持</font>，但``都是支持的</p>
+</li>
+<li>
+<p>$(())主要用来进行整数运算，包括加减乘除，引用变量前面可以加$，也可以不加$</p>
+</li>
+</ol>
+</blockquote>
+</article><section class="article labels"><a class="category" href=/categories/shell/>shell</a><a class="tag" href=/tags/shell/>shell</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/shell_%E4%B8%AD%E6%9C%89%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E4%B8%80%E8%A7%88/"><span class="iconfont icon-article"></span>Shell_中有类型变量一览</a></p><p><a class="link" href="/posts/shell_%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/"><span class="iconfont icon-article"></span>Shell_字符串处理</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

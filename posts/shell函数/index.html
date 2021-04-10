@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Shell 函数&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Shell 函数" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Shell 函数</h1><p class="article date">Wednesday, April 29, 2020</p></section><article class="article markdown-body"><h3 id="语法格式">语法格式</h3>
+<h4 id="格式一">格式一</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">name<span class="o">()</span>
+<span class="o">{</span>
+	 command1
+	 command2
+	 ......
+	 commandn
+<span class="o">}</span>
+</code></pre></div><h4 id="格式二">格式二</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> name
+<span class="o">{</span>
+	command1
+	command2
+	......
+	commandn
+<span class="o">}</span>
+</code></pre></div><h3 id="函数调用">函数调用</h3>
+<ol>
+<li>直接使用函数名调用，可以将其想象成 Shell 中的一条命令</li>
+<li>函数内部可以直接使用参数 $1、$2&hellip;$n</li>
+<li>调用函数：function_name $1 $2</li>
+</ol>
+<h3 id="示例">示例</h3>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 一</span>
+<span class="k">function</span> hello
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Hello, Zhangsan&#34;</span>
+<span class="o">}</span>
+
+<span class="c1"># 二</span>
+<span class="k">function</span> print_num
+<span class="o">{</span>
+	<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span>0<span class="p">;</span> i&lt;<span class="o">=</span> 10<span class="p">;</span> i++<span class="o">))</span>
+	<span class="k">do</span>
+		<span class="nb">echo</span> -n <span class="s2">&#34;</span><span class="nv">$i</span><span class="s2">&#34;</span>
+	<span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># 三</span>
+<span class="c1"># 需求描述：写一个监控 nginx 的脚本；如果 nginx 服务宕掉了，则该脚本可以检测到并将进程启动</span>
+
+<span class="c1">#!/bin/bash</span>
+<span class="c1">#</span>
+
+<span class="nv">this_pid</span><span class="o">=</span><span class="nv">$$</span>
+<span class="nv">status</span> <span class="o">=</span> <span class="sb">`</span>ps -ef <span class="p">|</span> grep nginx <span class="p">|</span> grep -v grep <span class="p">|</span> grep -v <span class="nv">$this_pid</span><span class="sb">`</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$status</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Nginx is running well&#34;</span>
+
+<span class="k">else</span>
+	systemc start nginx
+	<span class="nb">echo</span> <span class="s2">&#34;Nginx is down, Start it...&#34;</span>
+
+<span class="k">fi</span>
+</code></pre></div><h3 id="shell-中的传参">shell 中的传参</h3>
+<blockquote>
+<p>函数传参和脚本传参类似，都是使用 $1 $2 $3 $4 $5 $6 $7 这种方式</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> name
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Hello </span><span class="nv">$1</span><span class="s2">&#34;</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Hello </span><span class="nv">$2</span><span class="s2">&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>函数调用：</strong></p>
+<p>​	name Lily Allen</p>
+<h4 id="示例-1">示例</h4>
+<p>​	需求描述：写一个脚本，该脚本可以实现计算器的功能，可以进行 +-*/ 四种计算。例如：sh calculate.sh 30 + 40 | sh calculate.sh 30-40 | sh calculdate.sh 30 * 40 | sh calculate.sh 30/40</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#</span>
+
+<span class="k">function</span> calculate
+<span class="o">{</span>
+	<span class="k">case</span> <span class="s2">&#34;</span><span class="nv">$2</span><span class="s2">&#34;</span> in
+		+<span class="o">)</span>
+			<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2"> + </span><span class="nv">$3</span><span class="s2"> = </span><span class="k">$(</span>expr <span class="nv">$1</span> + <span class="nv">$3</span><span class="k">)</span><span class="s2">&#34;</span>
+			<span class="p">;;</span>
+		-<span class="o">)</span>
+			<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2"> - </span><span class="nv">$3</span><span class="s2"> = </span><span class="k">$(</span>expr <span class="nv">$1</span> - <span class="nv">$3</span><span class="k">)</span><span class="s2">&#34;</span>
+			<span class="p">;;</span>
+		<span class="se">\*</span><span class="o">)</span>
+    	<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2"> \* </span><span class="nv">$3</span><span class="s2"> = </span><span class="k">$(</span>expr <span class="nv">$1</span> <span class="se">\*</span> <span class="nv">$3</span><span class="k">)</span><span class="s2">&#34;</span>
+    	<span class="p">;;</span>
+    /<span class="o">)</span>
+    	<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2"> / </span><span class="nv">$3</span><span class="s2"> = </span><span class="k">$(</span>expr <span class="nv">$1</span> / <span class="nv">$3</span><span class="k">)</span><span class="s2">&#34;</span>
+    	<span class="p">;;</span>
+    	
+  <span class="k">esac</span>  	
+
+<span class="o">}</span>
+
+calculate <span class="nv">$1</span> <span class="nv">$2</span> <span class="nv">$3</span>
+
+</code></pre></div><h3 id="shell-中的返回值">shell 中的返回值</h3>
+<h4 id="return">return</h4>
+<ol>
+<li>使用 return 返回值，只能返回 1-255 的整数</li>
+<li>函数使用 return 返回值，通常只是用来供其他地方调用获取状态，因此通常仅返回 0 或 1；0表示成功，1表示失败。</li>
+</ol>
+<h4 id="echo">echo</h4>
+<ol>
+<li>使用 echo 可以返回任何字符串结果</li>
+<li>通常用于返回数据，比如一个字符串值或者列表值</li>
+</ol>
+<h4 id="示例-2">示例</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#</span>
+<span class="c1"># 检测 nginx 的状态</span>
+
+<span class="nv">$this_pid</span><span class="o">=</span><span class="nv">$$</span>
+
+<span class="k">function</span> is_nginx_running
+<span class="o">{</span>
+	ps -ef <span class="p">|</span> grep nginx <span class="p">|</span> grep -v grep <span class="p">|</span> grep -v <span class="nv">$this_pid</span> <span class="p">&amp;</span>&gt; /dev/null
+	<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq 0<span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+		<span class="k">return</span> <span class="m">0</span>
+	<span class="k">else</span>
+  	<span class="k">return</span> <span class="m">1</span>
+	<span class="k">fi</span>
+<span class="o">}</span>
+
+is_nginx_running <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;Nginx is running&#34;</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&#34;Nginx is stoped&#34;</span>
+
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1"># 获取 Linux 的用户列表</span>
+<span class="c1">## cat /etc/passwd | cut -d: -f1</span>
+
+<span class="k">function</span> get_users
+<span class="o">{</span>
+		<span class="nv">users</span><span class="o">=</span><span class="sb">`</span>cat /etc/passwd <span class="p">|</span> cut -d: -f1<span class="sb">`</span>
+		<span class="nb">echo</span> <span class="nv">$users</span>
+<span class="o">}</span>
+
+<span class="nv">user_list</span><span class="o">=</span><span class="sb">`</span>get_users<span class="sb">`</span>
+<span class="nv">index</span><span class="o">=</span><span class="m">1</span>
+<span class="k">for</span> u in <span class="nv">$user_list</span>
+<span class="k">do</span>
+	<span class="nb">echo</span> <span class="s2">&#34;This </span><span class="nv">$index</span><span class="s2"> user is: </span><span class="nv">$u</span><span class="s2">&#34;</span>
+	<span class="nv">index</span> <span class="o">=</span> <span class="k">$((</span><span class="nv">$index</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+<span class="k">done</span>
+</code></pre></div><h3 id="shell-中的变量">shell 中的变量</h3>
+<h4 id="全局变量">全局变量</h4>
+<ol>
+<li>不做特殊说明，Shell 中变量都是全局变量</li>
+<li>Tips: 大型脚本程序中函数中慎用全局变量</li>
+</ol>
+<h4 id="局部变量">局部变量</h4>
+<ol>
+<li>定义变量时，使用 local 关键字</li>
+<li>函数内和外若存在同名变量，则函数内部变量覆盖外部变量</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#</span>
+
+<span class="nv">var1</span><span class="o">=</span><span class="s2">&#34;Hello world&#34;</span>
+<span class="k">function</span> <span class="nb">test</span>
+<span class="o">{</span>
+		<span class="nv">var2</span><span class="o">=</span><span class="m">87</span>
+<span class="o">}</span>
+
+<span class="nb">echo</span> <span class="nv">$var1</span>
+<span class="nb">echo</span> <span class="nv">$var2</span>
+
+<span class="nb">test</span>
+<span class="nb">echo</span> <span class="nv">$var1</span>
+<span class="nb">echo</span> <span class="nv">$var2</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#</span>
+
+<span class="nv">var1</span><span class="o">=</span><span class="s2">&#34;Hello world&#34;</span>
+<span class="k">function</span> <span class="nb">test</span>
+<span class="o">{</span>
+		<span class="nv">var2</span><span class="o">=</span><span class="m">87</span>
+<span class="o">}</span>
+
+<span class="nb">test</span>
+<span class="nb">echo</span> <span class="nv">$var1</span>
+<span class="nb">echo</span> <span class="nv">$var2</span>
+</code></pre></div><h3 id="函数库">函数库</h3>
+<ol>
+<li>经常使用的重复代码封装成函数文件</li>
+<li>一般直接执行，而是由其他脚本调用</li>
+</ol>
+<h4 id="示例-3">示例</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> add
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;`expr </span><span class="nv">$1</span><span class="s2"> + </span><span class="nv">$2</span><span class="s2">`&#34;</span>
+<span class="o">}</span>
+
+<span class="k">function</span> reduce
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;`expr </span><span class="nv">$1</span><span class="s2"> - </span><span class="nv">$2</span><span class="s2">`&#34;</span>
+<span class="o">}</span>
+
+<span class="k">function</span> multiple
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;`expr </span><span class="nv">$1</span><span class="s2"> * </span><span class="nv">$2</span><span class="s2">`&#34;</span>
+<span class="o">}</span>
+
+<span class="k">function</span> divide
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;`expr </span><span class="nv">$1</span><span class="s2"> / </span><span class="nv">$2</span><span class="s2">`&#34;</span>
+<span class="o">}</span>
+
+<span class="k">function</span> sys_load
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Memory Info&#34;</span>
+	<span class="nb">echo</span>
+	free -m
+	<span class="nb">echo</span>
+	
+	<span class="nb">echo</span> <span class="s2">&#34;Disk Usage&#34;</span>
+	<span class="nb">echo</span>
+	df -h
+	<span class="nb">echo</span>
+<span class="o">}</span>
+
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#</span>
+
+	base_function   <span class="c1">## 文件件的绝对路径</span>
+
+add <span class="m">12</span> <span class="m">23</span>
+reduce <span class="m">90</span> <span class="m">30</span>
+multiple <span class="m">12</span> <span class="m">21</span>
+divide <span class="m">12</span> <span class="m">3</span>
+
+</code></pre></div><h4 id="一般事项">一般事项</h4>
+<ol>
+<li>库文件名的后缀是任意的，但一般使用 .lib</li>
+<li>库文件通常没有可执行选项</li>
+<li>库文件无需和脚本在同级目录，只需在脚本中引用时指定</li>
+<li>第一行一般使用 #!/bin/echo，输出警告信息，避免用户执行</li>
+</ol>
+</article><section class="article labels"><a class="category" href=/categories/shell/>shell</a><a class="tag" href=/tags/shell/>shell</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/shell%E7%BC%96%E7%A8%8B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/"><span class="iconfont icon-article"></span>Shell 编程中常用的工具</a></p><p><a class="link" href="/posts/mac%E4%BD%BF%E7%94%A8ssh%E7%99%BB%E9%99%86%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/"><span class="iconfont icon-article"></span>Mac 使用 SSH 登陆云服务器</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>

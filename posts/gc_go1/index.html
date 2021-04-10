@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.80.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Go-GC 详解（理论）&nbsp;&ndash;&nbsp;K&#39;s blog</title><link rel="stylesheet" href="/css/core.min.f1d3ebd5dacef286015d04950bfe91b0e1c580f2e6cc99098e8e5ad53aa706930b4611236d0508964707c1d111feecb8.css" integrity="sha384-8dPr1drO8oYBXQSVC/6RsOHFgPLmzJkJjo5a1TqnBpMLRhEjbQUIlkcHwdER/uy4"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Go-GC 详解（理论）" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><img class="site logo" src="https://s3.ax1x.com/2021/02/11/yBlyVI.png" alt /><span class="site name">K's blog</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about">About</a></nav></div></span></div><div class="site slogan"><span class="title">大道至简 上善若水</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Go-GC 详解（理论）</h1><p class="article date">Tuesday, July 21, 2020</p></section><article class="article markdown-body"><h3 id="一前言">一、前言</h3>
+<p>Go 处在发展中，有些技术选型，或者是算法也许会在某个版本之后会被替换掉！</p>
+<h3 id="二问题开始的地方">二、问题开始的地方</h3>
+<blockquote>
+<p>Go 语言中，全局变量被 GC 的时机是什么？</p>
+</blockquote>
+<h3 id="三go-语言设计中关于-garbage-collection-的思考">三、Go 语言设计中关于 garbage collection 的思考</h3>
+<h4 id="1--为什么决定让-go-成为一种-garbage-collection-的语言">1.  为什么决定让 Go 成为一种 garbage collection 的语言?</h4>
+<p>在此之前，需要了解 Go 与 C 之间是有关系的，官方将其归入为 C 家族（从基本语法角度）。</p>
+<h5 id="先看-c--c-语言">先看 C / C++ 语言</h5>
+<ol>
+<li>设计倾向于暴露内存管理的细节，导致处理不好，很容易出 bug。</li>
+<li>因为工程师写写代码时要考虑内存的分配和释放，使得版本更新迭代的周期较慢。</li>
+</ol>
+<h5 id="再看-java-语言">再看 Java 语言</h5>
+<p>设计了 GC，同时存在以下几个问题：</p>
+<ol>
+<li>开销的不可控性。</li>
+<li>更大概率的高延迟性。</li>
+<li>业务上为了获得良好的性能，需要进行大量的调参。</li>
+</ol>
+<h5 id="最后看-go-的选择">最后看 Go 的选择</h5>
+<p>首先要强调，Go 是一门并发语言。</p>
+<ol>
+<li>Concurrency is hard without garbage collection。</li>
+<li>缓冲区与包含该结构的内存块一起分配，因此不需要间接访问。</li>
+<li>Go 提供了 <code>second-order allocators</code>（比如：arena），只要适当安排结构，就不会产生垃圾，且保证了高效和响应速度。</li>
+<li>目前的设计是一个并行标记和扫描收集器，仍然有机会改进其性能，甚至可能改进其设计。</li>
+</ol>
+<h4 id="2-引入-garbage-collection-后的带来了什么">2. 引入 garbage collection 后的带来了什么？</h4>
+<ol>
+<li>语言的一般性开销。</li>
+<li>GC 过程中产生的延迟。</li>
+<li>语言实现的复杂性（GC 实现的成本将由语言开发者去承担，普通程序员则更为受益）。</li>
+</ol>
+<h3 id="四go-gc-几次重要的改动">四、Go GC 几次重要的改动</h3>
+<ol>
+<li>v1.1 STW。</li>
+<li>v1.3 Mark STW, Sweep 并行。</li>
+<li>v1.5 三色标记法。</li>
+<li>v1.8 hybrid write barrier。</li>
+<li>v1.9 GC 改为并发 GC</li>
+<li>v1.12 优化 mark termination</li>
+<li>&hellip;&hellip;</li>
+</ol>
+<h3 id="五初步了解-gc-算法以及垃圾回收统一理论">五、初步了解 GC 算法以及垃圾回收统一理论</h3>
+<p>所有的 GC 算法，按照其存在形式可以划分为三种：① 追踪（Tracing）② 引用计数（Reference Counting）③ 前面两种的混合运用。</p>
+<ul>
+<li>追踪式 GC：从根对象出发，根据对象之间的引用信息，一步步推进直到扫描完毕整个堆并确定需要保留的对象，从而回收所有可回收的对象。</li>
+<li>引用技术式 GC：每个对象自身包含一个被引用的计数器，当计数器归零时自动得到回收。因为此方法缺陷较多，在追求高性能时通常不被应用。</li>
+</ul>
+<h4 id="常见-gc-实现方式">常见 GC 实现方式</h4>
+<h5 id="追踪式">追踪式：</h5>
+<ul>
+<li>标记清扫：从根对象出发，将确定存活的对象进行标记，并清扫可以回收的对象。</li>
+<li>标记整理：为了解决内存碎片问题而提出，在标记过程中，将对象尽可能整理到一块连续的内存上。</li>
+<li>增量式：将标记与清扫的过程分批执行，每次执行很小的部分，从而增量的推进垃圾回收，达到近似实时、几乎无停顿的目的。</li>
+<li>增量整理：在增量式的基础上，增加对对象的整理过程。</li>
+<li>分代式：将对象根据存活时间的长短进行分类，存活时间小于某个值的为年轻代，存活时间大于某个值的为老年代，永远不会参与回收的对象为永久代。并根据分代假设（如果一个对象存活时间不长则倾向于被回收，如果一个对象已经存活很长时间则倾向于存活更长时间）对对象进行回收。</li>
+</ul>
+<h5 id="引用计数式">引用计数式：</h5>
+<p>​	根据对象自身的引用计数来回收，当引用计数归零时立即回收。</p>
+<h4 id="todo-垃圾回收统一定理a-unified-theory-of-garbage-collection">TODO: 垃圾回收统一定理（A unified theory of garbage collection）</h4>
+<p>实际应用中一般分为两类，从理论上，则归结为一种，对其进行统一描述即<strong>垃圾回收统一定理（A unified theory of garbage collection）</strong></p>
+<h3 id="七谈及三色标记法时实际上在说什么">七、谈及三色标记法时实际上在说什么？</h3>
+<p>实际上不具有实际含义，只是形象的描述追踪式回收器的状态，其重要作用在于从逻辑上严密推导标记清理这种垃圾回收方法的正确性。简而言之，指标记清扫的垃圾回收。</p>
+<p><img  src="https://s1.ax1x.com/2020/07/21/UoKgHA.png"
+        alt="垃圾回收波面示意图"/></p>
+<h4 id="垃圾回收过程示意图">垃圾回收过程示意图</h4>
+<p><img  src="https://s1.ax1x.com/2020/07/21/UoM9u4.png"
+        alt="垃圾回收过程示意图"/></p>
+<p><img  src="https://s1.ax1x.com/2020/07/21/UotqQ1.png"
+        alt="官方的算法描述"/></p>
+<h5 id="对象的三种颜色判断">对象的三种颜色判断</h5>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 是否为白色对象
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">isWhite</span><span class="p">(</span><span class="nx">ref</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">!</span><span class="nf">isMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="c1">// 是否为灰色
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">isGrey</span><span class="p">(</span><span class="nx">ref</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="c1">// 是否为黑色
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">isBlack</span><span class="p">(</span><span class="nx">ref</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">isMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">!</span><span class="nf">isGrey</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="八标记清扫">八、标记清扫</h3>
+<p>自动内存管理涉及到内存自动回收</p>
+<p><img  src="https://s1.ax1x.com/2020/07/21/UoY4Cd.png"
+        alt="UoY4Cd.png"/></p>
+<p>赋值器：指用户态代码。因为对垃圾回收器而言，需要回收的内存是由用户态的代码产生的， 用户态代码仅仅只是在修改对象之间的引用关系（对象之间引用关系的一个有向图，即对象图） 进行操作。</p>
+<p>回收器：为程序运行时负责执行垃圾回收的代码。</p>
+<h4 id="串行标记清扫">串行标记清扫</h4>
+<h5 id="标记追踪从根集合寄存器执行栈全局变量开始遍历对象图标记遇到的每个对象">标记追踪：从根集合（寄存器、执行栈、全局变量）开始遍历对象图，标记遇到的每个对象。</h5>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">mark</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">worklist</span><span class="p">.</span><span class="nf">Init</span><span class="p">()</span>                       <span class="c1">// 初始化标记 work 列表
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">root</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">roots</span> <span class="p">{</span>             <span class="c1">// 从根开始扫描
+</span><span class="c1"></span>        <span class="nx">ref</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">root</span>
+        <span class="k">if</span> <span class="nx">ref</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="p">!</span><span class="nf">isMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 标记每个遇到的对象
+</span><span class="c1"></span>            <span class="nf">setMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+            <span class="nx">worklist</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">!</span><span class="nx">worklist</span><span class="p">.</span><span class="nf">Empty</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">ref</span> <span class="o">:=</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">Remove</span><span class="p">()</span>  <span class="c1">// ref 已经标记过
+</span><span class="c1"></span>                <span class="k">for</span> <span class="nx">fld</span> <span class="o">:=</span> <span class="k">range</span> <span class="nf">Pointers</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">child</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">fld</span>
+                    <span class="k">if</span> <span class="nx">child</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="p">!</span><span class="nf">isMarked</span><span class="p">(</span><span class="nx">child</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nf">setMarked</span><span class="p">(</span><span class="nx">child</span><span class="p">)</span>
+                        <span class="nx">worlist</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">child</span><span class="p">)</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="清扫回收检查堆中每一个对象将所有未标记的对象当做垃圾进行回收">清扫回收：检查堆中每一个对象，将所有未标记的对象当做垃圾进行回收。</h5>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">sweep</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 检查堆区间内所有的对象
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">scan</span> <span class="o">:=</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">Start</span><span class="p">();</span> <span class="nx">scan</span> <span class="p">&lt;</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">End</span><span class="p">();</span> <span class="nx">scan</span> <span class="p">=</span> <span class="nx">scan</span><span class="p">.</span><span class="nx">Next</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nf">isMarked</span><span class="p">(</span><span class="nx">scan</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">unsetMarked</span><span class="p">(</span><span class="nx">scan</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">free</span><span class="p">(</span><span class="nx">scan</span><span class="p">)</span> <span class="c1">// 将未标记的对象释放
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h4 id="并发标记清扫">并发标记清扫</h4>
+<p><strong>并发标记思想</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">markSome</span><span class="p">()</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>       <span class="c1">// 初始化回收过程
+</span><span class="c1"></span>        <span class="nf">scan</span><span class="p">(</span><span class="nx">Roots</span><span class="p">)</span>             <span class="c1">// 赋值器不持有任何白色对象的引用
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>   <span class="c1">// 此时灰色对象已经全部处理完毕
+</span><span class="c1"></span>            <span class="nf">sweep</span><span class="p">()</span>             <span class="c1">// 标记结束，立即清扫
+</span><span class="c1"></span>            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 回收过程尚未完成，后续过程仍需标记
+</span><span class="c1"></span>    <span class="nx">ref</span> <span class="p">=</span> <span class="nx">worklist</span><span class="p">.</span><span class="nf">remove</span><span class="p">()</span>
+    <span class="nf">scan</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">scan</span><span class="p">(</span><span class="nx">ref</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">fld</span> <span class="o">:=</span> <span class="k">range</span> <span class="nf">Pointers</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">child</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">fld</span>
+        <span class="k">if</span> <span class="nx">child</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="nf">shade</span><span class="p">(</span><span class="nx">child</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">shade</span><span class="p">(</span><span class="nx">ref</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">!</span><span class="nf">isMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">setMarked</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+        <span class="nx">worklist</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">ref</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>​	在这个过程中，回收器会首先扫描 worklist，而后对根集合进行扫描并重新建立 worklist。 在根集合扫描过程中赋值器现场被挂起时，扫描完成后则不会再存在白色对象。</p>
+<p><strong>并发清扫思想</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">New</span><span class="p">()</span> <span class="p">(</span><span class="kd">interface</span><span class="p">{},</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">collectEnough</span><span class="p">()</span>
+    <span class="nx">ref</span> <span class="o">:=</span> <span class="nf">allocate</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">ref</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;Out of memory&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">ref</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">collectEnough</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nf">stopTheWorld</span><span class="p">()</span>
+    <span class="k">defer</span> <span class="nf">startTheWorld</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="nf">behind</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// behind() 控制回收工作每次的执行量
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">!</span><span class="nf">markSome</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="参考">参考</h3>
+<ol>
+<li>
+<p><a href="https://talks.golang.org/2012/splash.article#TOC_14."target="_blank" rel="noopener noreferrer">Go at Google: Language Design in the Service of Software Engineering</a>
+</p>
+</li>
+<li>
+<p><a href="https://talks.golang.org/2009/go_talk-20091030.pdf"target="_blank" rel="noopener noreferrer">2009 GoTalk</a>
+</p>
+</li>
+<li>
+<p><a href="https://web.eecs.umich.edu/~weimerw/2012-4610/reading/bacon-garbage.pdf"target="_blank" rel="noopener noreferrer">Bacon, David F., Perry Cheng, and V. T. Rajan.  A unified theory of garbage collection.”</a>
+</p>
+</li>
+<li>
+<p><a href="https://lamport.azurewebsites.net/pubs/garbage.pdf"target="_blank" rel="noopener noreferrer">Edsger W. Dijkstra, Leslie Lamport, A. J. Martin, C. S. Scholten, and E. F. M. Steffens. 1978. On-the-fly garbage collection: an exercise in cooperation.</a>
+</p>
+</li>
+<li>
+<p><a href="https://golang.org/doc/faq#garbage_collection"target="_blank" rel="noopener noreferrer">Why do garbage collection? Won&rsquo;t it be too expensive? </a>
+</p>
+</li>
+<li>
+<p><a href="http://changkun.de/golang"target="_blank" rel="noopener noreferrer">强推：《Go 语言原本》</a>
+</p>
+</li>
+</ol>
+</article><section class="article labels"><a class="category" href=/categories/go/>Go</a></section>
+</div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/escape_analysis_for_go/"><span class="iconfont icon-article"></span>Go 内存逃逸分析</a></p><p><a class="link" href="/posts/goland-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"><span class="iconfont icon-article"></span>Goland 使用技巧</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">K's blog</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/&#43;DiW/UqRcLbRjq" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l&#43;B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd&#43;qj&#43;o24G5ZU2zJz" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script></body>
+
+</html>
