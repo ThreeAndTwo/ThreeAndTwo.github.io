@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fun on ThreeAndTwo&#39;s Blog</title>
+    <link>https://ThreeAndTwo.github.io/categories/fun/</link>
+    <description>Recent content in Fun on ThreeAndTwo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Jan 2021 10:21:06 +0800</lastBuildDate><atom:link href="https://ThreeAndTwo.github.io/categories/fun/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Outline2app</title>
+      <link>https://ThreeAndTwo.github.io/posts/outline2app/</link>
+      <pubDate>Tue, 19 Jan 2021 10:21:06 +0800</pubDate>
+      
+      <guid>https://ThreeAndTwo.github.io/posts/outline2app/</guid>
+      <description>| 不务正业系列，但是很好玩的一个东西！
+| 教你把一个网站打包成一个可安装的桌面软件。
+环境准备 - NodeJs - Mac / Wins / Linux 工具安装 $ npm i -g nativefier 开始制作 选定好要制作的网页。例如：https://github.com
+最简单的命令 $ nativefier &amp;#34;https://github.com&amp;#34; 指定软件名称以及图标 $ nativefier --name &amp;#34;github&amp;#34; --icon &amp;#34;/Users/kai/Downloads/linux_icon.png&amp;#34; &amp;#34;https://github.com&amp;#34; | PS: 关于 icon 的要求，在Linx 和 Mac 上可以是 png 的图片。但是在 Wins 上则必须是 .ico 文件！ 打包其他平台的安装包 # 个人的是 Mac，所以用上面命令打包出来的默认是 Mac 上的。 $ nativefier --name &amp;#34;github&amp;#34; -p &amp;#34;windows&amp;#34; --icon &amp;#34;/Users/kai/Downloads/win_icon.ico&amp;#34; &amp;#34;https://github.com&amp;#34; # 此为 wins 上的 $ nativefier --name &amp;#34;github&amp;#34; --icon &amp;#34;/Users/kai/Downloads/linux_icon.</description>
+    </item>
+    
+  </channel>
+</rss>
