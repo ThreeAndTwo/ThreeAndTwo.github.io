@@ -6,7 +6,22 @@
     <description>Recent content on ThreeAndTwo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Jan 2021 10:21:06 +0800</lastBuildDate><atom:link href="https://ThreeAndTwo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Oct 2022 12:08:32 +0800</lastBuildDate><atom:link href="https://ThreeAndTwo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>浅谈数字人民币</title>
+      <link>https://ThreeAndTwo.github.io/posts/%E6%B5%85%E8%B0%88%E6%95%B0%E5%AD%97%E4%BA%BA%E6%B0%91%E5%B8%81/</link>
+      <pubDate>Thu, 06 Oct 2022 12:08:32 +0800</pubDate>
+      
+      <guid>https://ThreeAndTwo.github.io/posts/%E6%B5%85%E8%B0%88%E6%95%B0%E5%AD%97%E4%BA%BA%E6%B0%91%E5%B8%81/</guid>
+      <description>｜ 先验知识：需要理解中央银行运行的基本规则，中央银行与商业银行之间的关系，以及央行对于经济的作用。
+question 为什么央行管控的数字货币先产生于中国？ 为什么当前模式下一定会通向更为垂直的货币管控？ 此种模式下的优缺点是什么？ 个人应该何去何从？ 0x00 为什么央行管控的数字货币先产生于中国？ 因为中央银行信用扩张已经到极限。那么极限的尽头是什么结局呢？
+中国中央银行的体系在极大程度上借鉴并学习了国外先进央行的体系。在此需要明确下中国央行 对于 M2 货币的定义与美国之类的 M2 货币的定义的不同。正因为不同，所以在计算中国 M2 广义货币的时候，需要明确计算的内容，才能得知信用扩张真实杠杆率。
+source: tradingeconomics.com 0x01 为什么当前模式下一定会通向更为垂直的货币管控？ 部分准备金率永恒的殇 &amp;ndash; 商业银行的挤兑风险
+既然无法防止挤兑，那么自然而然就应该去管控资金的流向，不让其有任何外流的余地。
+0x02 央行管控的数字货币优缺点是什么？ 优点： 如你在新闻用所见的所有溢美之词。 缺点： 无限的信用扩张。 更加泡沫化的未来。 更加难以翻身的个体。 更多为本不应该买单的后果买单。 0x03 个人应该何去何从？ 学会分辨何为真正的资产，并且学会藏其于无形。
+0x04 安全性与稳定性？ 数字人民币系统设计风险 如果将其看过央行的一场社会实验，在信用无限扩张之后，社会稳定性未知。 同样，在无限扩张之后，它暗中标好的价格真的是我们能支付得起的吗？它造成的后果真的应该由每个个体承担吗？ 技术带来的未知风险 具体技术细节，并不透露，因此风险暂不可知。如同商业银行打包售卖的 ABS 一样，对于投资者来讲，纸面风险并不等于实际风险。 “敌在本能寺”。 参考 人民银行数字货币研究所：网传DC/EP信息为测试内容 并不意味数字人民币正式落地发行</description>
+    </item>
+    
     <item>
       <title>Outline2app</title>
       <link>https://ThreeAndTwo.github.io/posts/outline2app/</link>
@@ -17,6 +32,15 @@
 | 教你把一个网站打包成一个可安装的桌面软件。
 环境准备 - NodeJs - Mac / Wins / Linux 工具安装 $ npm i -g nativefier 开始制作 选定好要制作的网页。例如：https://github.com
 最简单的命令 $ nativefier &amp;#34;https://github.com&amp;#34; 指定软件名称以及图标 $ nativefier --name &amp;#34;github&amp;#34; --icon &amp;#34;/Users/kai/Downloads/linux_icon.png&amp;#34; &amp;#34;https://github.com&amp;#34; | PS: 关于 icon 的要求，在Linx 和 Mac 上可以是 png 的图片。但是在 Wins 上则必须是 .ico 文件！ 打包其他平台的安装包 # 个人的是 Mac，所以用上面命令打包出来的默认是 Mac 上的。 $ nativefier --name &amp;#34;github&amp;#34; -p &amp;#34;windows&amp;#34; --icon &amp;#34;/Users/kai/Downloads/win_icon.ico&amp;#34; &amp;#34;https://github.com&amp;#34; # 此为 wins 上的 $ nativefier --name &amp;#34;github&amp;#34; --icon &amp;#34;/Users/kai/Downloads/linux_icon.</description>
+    </item>
+    
+    <item>
+      <title>About ME</title>
+      <link>https://ThreeAndTwo.github.io/posts/about/</link>
+      <pubDate>Fri, 02 Oct 2020 10:54:24 +0800</pubDate>
+      
+      <guid>https://ThreeAndTwo.github.io/posts/about/</guid>
+      <description></description>
     </item>
     
   </channel>
