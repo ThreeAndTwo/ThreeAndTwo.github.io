@@ -45,7 +45,8 @@ source: tradingeconomics.com 基础货币 = 真实准备金 + 再贷款派生资
       <pubDate>Fri, 02 Oct 2020 10:54:24 +0800</pubDate>
       
       <guid>https://ThreeAndTwo.github.io/posts/about/</guid>
-      <description></description>
+      <description>你好，我是 KAI，目前在一家区块链公司就职，日常 coding；投研；私下有做交易相关的事情。所写内容只是个人想法，不具有任何投资建议 。 目前还是更为深入研究 CS 技术，以及继续深入经济金融以及交易相关的内容。
+博客目的 记录个人 CS 技术 记录个人的胡思乱想 记录个人读书总结 工作内容 不日常的 Coding 风控管理 项目投研（经济模型，合约分析等等） 技术栈 Go, PHP, Python, Solidity, Typescript 学习中的 rust = = Ethereum Chain, Cosmos Verse 够用的英语，以及半吊子的日语 </description>
     </item>
     
   </channel>
